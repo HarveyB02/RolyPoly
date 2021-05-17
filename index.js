@@ -27,6 +27,10 @@ client.on('message', (message) => {
 	if (message.author.bot) return;
 
 	if (message.channel.type == 'text') { // For messages in servers
+		if (message.content == process.eng.PREFIX + 'try') {
+			message.channel.send('https://tryitands.ee/');
+			return;
+		}
 			
 		if (!message.content.startsWith(process.env.PREFIX) ||
 		!message.member.hasPermission('MANAGE_CHANNELS') ||
