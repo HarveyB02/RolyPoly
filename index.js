@@ -27,7 +27,7 @@ client.on('message', (message) => {
 	if (message.author.bot) return;
 
 	if (message.channel.type == 'text') { // For messages in servers
-		if (message.content == process.eng.PREFIX + 'try') {
+		if (message.content == process.env.PREFIX + 'try') {
 			message.channel.send('https://tryitands.ee/');
 			return;
 		}
