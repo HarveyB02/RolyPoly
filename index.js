@@ -34,7 +34,7 @@ client.on('message', (message) => {
 			message.channel.send('**Does not work** is not sufficient information to provide to receive help. What\'s the expected (wanted) behaviour, what\'s the actual (unwanted) behaviour? Do you get any errors? What\'s your relevant code that might be causing the issue?');
 			return;
 		} else if ( message.content == process.env.PREFIX + 'code') {
-			message.channel.send('Use code blocks whenever pasting code. To send a code block, use 3 backticks (`) followed by your code language name, your code on a newline, then close it off with another 3 backticks. e.g.\n\\`\\`\\`java\nSystem.out.print("Hello world.");\n\\`\\`\\`');
+			message.channel.send('Use code blocks whenever pasting code. To send a code block, use 3 backticks (\\`) followed by your code language name, your code on a newline, then close it off with another 3 backticks. e.g.\n\\`\\`\\`java\nSystem.out.print("Hello world.");\n\\`\\`\\`');
 			message.channel.send('https://imgur.com/2gdY8u4');
 			return;
 		}
