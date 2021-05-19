@@ -35,7 +35,7 @@ client.on('message', (message) => {
 			return;
 		} else if ( message.content == process.env.PREFIX + 'code') {
 			message.channel.send('**Use code blocks** whenever pasting code.\nTo send a code block, use 3 backticks (\\`) followed by your code language name, your code on a newline, then close it off with another 3 backticks. e.g.\n\\`\\`\\`java\nSystem.out.print("Hello world.");\n\\`\\`\\`');
-			message.channel.send('https://imgur.com/a/FgwuXER');
+			message.channel.send('https://i.imgur.com/2gdY8u4.png');
 			return;
 		}
 			
