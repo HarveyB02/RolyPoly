@@ -1,29 +1,26 @@
 {
   "name": "rolypoly",
   "version": "1.0.0",
-  "description": "Role management bot for the CSIT Discord server ",
+  "description": "Management for the CSIT Discord server ",
   "main": "index.js",
-  "dependencies": {
-    "discord.js": "^12.5.3",
-    "dotenv": "^9.0.2"
-  },
-  "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/HarveyB02/RolyPoly.git"
   },
   "keywords": [
-    "heroku",
     "discord.js"
   ],
-  "author": "HarveyB02",
+  "author": "Harvey",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/HarveyB02/RolyPoly/issues"
   },
-  "homepage": "https://github.com/HarveyB02/RolyPoly#readme"
+  "homepage": "https://github.com/HarveyB02/RolyPoly#readme",
+  "dependencies": {
+    "discord.js": "^12.5.3",
+    "dotenv": "^10.0.0"
+  }
 }
