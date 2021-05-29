@@ -19,7 +19,11 @@ for (const folder of commandFolders) {
     }
 }
 
-client.on('ready', message => {
+client.on('ready', () => {
+    console.log('Loaded');
+});
+
+client.on('message', message => {
     if (message.partial) {
         message.fetch()
             .then(fullmessage => message = fullMessage)
@@ -63,11 +67,136 @@ client.on('ready', message => {
             let description = 'Not enough arguments were provided';
 
             if (command.arguments) {
-                description += `, please use \`\`\`\n${config.prefix}${commandName} ${command.arugments.replace(/~.+?( |$)/g, '')}`;
+                description += `, please use \`\`\`\n${config.prefix}${commandName} ${command.arguments.replace(/~.+?( |$)/g, '')}\`\`\``;
+            }
+
+            replyError(message, 'Not enough arguments', description);
+            return;
+        }
+    }
+
+    if (command.maxArgs) {
+        if (args.length > command.maxArgs) {
+            let description = 'Too many arguments were provided';
+
+            if (command.arguments) {
+                description += `, please use \`\`\`\n${config.prefix}${commandName} ${command.arguments.replace(/~.+?( |$)/g, '')}\`\`\``;
+            }
+
+            replyError(message, 'Too many arguments', description);
+            return;
+        } 
+    }
+
+    if (command.arguments) {
+        argType = command.arguments.trim().replace(/<.*?>| |\[/g, '').split(']');
+        argType.pop();
+
+        let exit = false;
+        for (var i = 0; i < argType.length && !exit; i ++) {
+            switch (argType[i]) {
+
+                case 'int':
+                    if (isNaN( parseInt(args[i]) )) {
+                        var description = `Invalid number was provided, please use ${config.prefix}${commandName} ${command.arguments.replace(/\[(.*?)\]/g, "")}`;
+                        
+                        replyError(message, 'Invalid argument type', description);
+                        return;
+                    }
+                    break;
+
+                case 'channel':
+                    if (!args[i]) args[i] = '';
+
+                    const channel = message.guild.channels.cache.find(c => c.id == args[i].replace(/[<#>]/g, ''));
+
+                    if (!channel) {
+                        var description = `Invalid channel was provided, please use ${config.prefix}${commandName} ${command.arguments.replace(/\[(.*?)\]/g, "")}`;
+                        
+                        replyError(message, 'Invalid argument type', description);
+                        return;
+                    }
+
+                    args[i] = channel;
+                    break;
+
+                case 'role':
+                    if (!args[i]) args[i] = '';
+
+                    const role = message.guild.roles.cache.find(r => r.id == args[i].replace(/[<@&>]/g, ''));
+
+                    if (!role) {
+                        var description = `Invalid role was provided, please use ${config.prefix}${commandName} ${command.arguments.replace(/\[(.*?)\]/g, "")}`;
+                        
+                        replyError(message, 'Invalid argument type', description);
+                        return;
+                    }
+
+                    args[i] = role;
+                    break;
+                case 'member':
+                    if (!args[i]) args[i] = '';
+
+                    const member = message.guild.members.cache.find(m => m.id == args[i].replace(/[<@!>]/g, ''))
+
+                    if (!member) {
+                        var description = `Invalid user was provided, please use ${config.prefix}${commandName} ${command.arguments.replace(/\[(.*?)\]/g, "")}`;
+                        
+                        replyError(message, 'Invalid argument type', description);
+                        return;
+                    }
+
+                    args[i] = member;
+                    break;
             }
         }
     }
-})
+
+    if (command.cooldown) {
+        const { cooldowns } = client;
+
+        if (!cooldowns.has(command.name)) {
+            cooldowns.set(command.name, new Discord.Collection());
+        }
+
+        const now = Date.now();
+        const timestamps = cooldowns.get(command.name);
+        const cooldownTime = (command.cooldown) * 1000;
+
+        if (timestamps.has(message.author.id)) {
+            const expirationTime = timestamps.get(message.author.id) + cooldownTime;
+
+            if (now < expirationTime) {
+                const timeLeft = (expirationTime - now) / 1000;
+
+                replyError(message, 'Cooldown', `${commandName} is on cooldown for another ${timeLeft.toFixed(1)}s`);
+                return;
+            }
+        }
+
+        timestamps.set(message.author.id, now);
+        setTimeout(() => timestamps.delete(message.author.id), cooldownTime);
+    }
+
+    const params = {
+        message: message,
+        args: args,
+        prefix: config.prefix
+    };
+
+    try {
+        command.execute(params);
+    } catch (error) {
+        if (command.error) {
+            try {
+                command.error(params, error);
+            } catch (error) {
+                message.reply('An error occured while executing this command');
+            }
+            message.reply(error);
+        }
+    }
+});
 
 function replyError(message, title, description) {
     const channel = message.channel;
@@ -84,3 +213,7 @@ function replyError(message, title, description) {
             .catch(error => console.log(error))
         });
 }
+
+exports.replyError = replyError;
+
+client.login(process.env.TOKEN);
