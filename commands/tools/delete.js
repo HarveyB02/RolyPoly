@@ -1,20 +1,21 @@
-const replyError = require('../../index').replyError;
+const index = require('../../index');
 const { MessageEmbed } = require("discord.js");
 
 module.exports = {
     aliases: ['del', 'purge', 'prune'],
     description: 'Deletes a set amount of messages from the current channel (max 100)',
     permissions: ['MANAGE_MESSAGES'],
-    arguments: '<quantity (1-100)>[int]',
+    arguments: '<quantity (1-100)>~int',
     minArgs: 1,
     maxArgs: 1,
     cooldown: 10,
+    textOnly: true,
     
     execute: async ({ message, args }) => {
         if (!message || !args) return;
 
         if (args[0] > 100 || args[0] <= 0) {
-            replyError(message, 'Argument out of bounds','The number you entered is too high/low');
+            index.replyError(message, 'Argument out of bounds','The number you entered is too high/low');
             return;
         }
 
