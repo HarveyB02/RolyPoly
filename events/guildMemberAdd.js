@@ -1,5 +1,5 @@
 module.exports = {
-    execute: (member) => {
+    execute: () => {
         
     }
 }

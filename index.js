@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const fs = require('fs');
 require('dotenv').config();
 
-const client = new Discord.Client([ 'MESSAGE', 'REACTION' ]);
+const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 client.commands = new Discord.Collection();
 client.cooldowns = new Discord.Collection();
 client.config = require('./config.json');
@@ -33,8 +33,10 @@ for (const folder of commandFolders) {
 
     for (const file of commandFiles) {
         const command = require(`./commands/${folder}/${file}`);
-        const commandName = command.name || file.substring(0, file.length - 3);
-        client.commands.set(commandName, command);
+        if (!command.name) {
+            command.name = file.substring(0, file.length - 3);
+        }
+        client.commands.set(command.name, command);
     }
 }
 

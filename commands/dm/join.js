@@ -11,7 +11,6 @@ module.exports = {
         const subjectRegex = /^[a-z]{4}[1-4][0-9]{2}$/;
 
         const embed = new MessageEmbed()
-            .setTitle('Join subject')
             .setColor(0x57F278);
 
         const guild = await message.client.guilds.fetch(process.env.GUILD);
@@ -58,11 +57,17 @@ module.exports = {
                         }
                     }
 
-                    const requestMsg = await modChannel.send('**Subject Approval request**\nUser: <@' + message.author.id + '>\nSubject: ' + subjectCode.toUpperCase());
+                    const requestEmbed = new MessageEmbed()
+                        .setTitle('Subject Approval Request')
+                        .setColor(0x57F278)
+                        .addField('User', `<@${message.author.id}>`, true)
+                        .addField('Subject', subjectCode.toUpperCase(), true);
+
+                    const requestMsg = await modChannel.send(requestEmbed);
                     requestMsg.react('✅');
                     requestMsg.react('❌');
 
-                    embed.addField(subjectCode.toUpperCase(), 'Subject channel currently doesn\'t exist, moderaters are reviewing your request to create one');
+                    embed.addField(subjectCode.toUpperCase(), 'We don\'t currently have a channel for this subject, I\'ve contacted the moderators if one should be created');
                 }
             }
         }

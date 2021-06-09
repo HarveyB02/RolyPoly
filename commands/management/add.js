@@ -13,7 +13,6 @@ module.exports = {
         const subjectRegex = /^[a-z]{4}[1-4][0-9]{2}$/;
 
         const embed = new MessageEmbed()
-            .setTitle('Add subject')
             .setColor(0x57F278);
             
 
@@ -33,7 +32,7 @@ module.exports = {
                 var subjectRole = await message.guild.roles.create({
                     data: {
                         name: subjectCode.toUpperCase(),
-                        color: client.config.roleColour
+                        color: message.client.config.roleColour
                     }
                 });
 

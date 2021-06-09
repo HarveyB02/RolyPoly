@@ -54,7 +54,18 @@ module.exports = {
     
         if (command.ownerOnly) {
             if (!client.config.ownerIDs.includes(message.author.id)) {
-                client.replyError(message, 'Owner only command', 'This command is restricted to the owner of the bot only.');
+                return;
+            }
+        }
+
+        if (command.hubOnly) {
+            if (message.guild.id != process.env.HUBID) {
+                return;
+            }
+        }
+
+        if (command.spokeOnly) {
+            if (message.guild.id == process.eng.HUBID) {
                 return;
             }
         }
@@ -188,8 +199,7 @@ module.exports = {
     
         const params = {
             message: message,
-            args: args,
-            prefix: client.config.prefix
+            args: args
         };
     
         try {

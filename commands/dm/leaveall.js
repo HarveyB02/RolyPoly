@@ -3,6 +3,7 @@ const { MessageEmbed } = require("discord.js");
 module.exports = {
     description: 'Leave all the subjects you have joined',
     dmOnly: false,
+    cooldown: 10,
     execute: async ({message}) => {
         const subjectRegex = /^[a-z]{4}[1-4][0-9]{2}$/;
 

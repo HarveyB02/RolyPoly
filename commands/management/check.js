@@ -1,4 +1,3 @@
-const config = require('../../config.json');
 const { MessageEmbed } = require("discord.js");
 
 module.exports = {
@@ -9,41 +8,65 @@ module.exports = {
     textOnly: true,
     
     execute: async ({ message, args }) => {
+        var categories = '';
+        var channels = '';
+        var roles = '';
+
         const subjectCategories = await message.guild.channels.cache.filter(channel => channel.type == 'category' && channel.name.toLowerCase().replace(/[0-4]/g, '') == ' level subjects');
 
-        subjectCategories.forEach(async category => {
+        await Promise.all(subjectCategories.map(async category => {
             const subjectChannels = await category.children.filter(channel => channel.type == 'text');
 
             if (category.permissionsFor(category.guild.roles.everyone).toArray().includes('VIEW_CHANNEL')) {
-                category.updateOverwrite(category.guild.roles.everyone, {
+                await category.updateOverwrite(category.guild.roles.everyone, {
                     'VIEW_CHANNEL': false
                 });
+
+                categories += `${category.name}, `;
             }
 
-            subjectChannels.forEach(async channel => {
+            await Promise.all(subjectChannels.map(async channel => {
                 var subjectRole = await channel.guild.roles.cache.find(role => role.name == channel.name);
 
                 if (!subjectRole) {
                     subjectRole = await message.guild.roles.create({
                         data: {
                             name: channel.name,
-                            color: config.roleColour
+                            color: message.client.config.roleColour
                         }
                     });
+                    
+                    roles += `<@&${subjectRole.id}>, `;
                 }
 
                 if (!channel.permissionsFor(subjectRole).toArray().includes('VIEW_CHANNEL')) {
                     channel.updateOverwrite(subjectRole, {
                         'VIEW_CHANNEL': true
                     });
+                    channels += `<#${channel.id}>, `;
                 }
-            });
-        });
+            }));
+        }));
 
         const embed = new MessageEmbed()
-            .setTitle('Update channels')
-            .setColor(0x57F278)
-            .setDescription('Completed sucessfully');
+            .setTitle('Check Results')
+            .setColor(0x57F278);
+
+        if (categories) {
+            embed.addField('Updated Categories', categories.substring(0, categories.length - 2));
+        }
+
+        if (channels) {
+            embed.addField('Updated Channels', channels.substring(0, channels.length - 2));
+        }
+
+        if (roles) {
+            embed.addField('Updated Roles', roles.substring(0, roles.length - 2));
+        }
+
+        if (!categories && !channels && !roles) {
+            embed.setDescription('All overwrites are set');
+        }
 
         message.reply(embed);
     }

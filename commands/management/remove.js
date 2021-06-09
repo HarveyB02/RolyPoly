@@ -13,7 +13,6 @@ module.exports = {
         const subjectRegex = /^[a-z]{4}[1-4][0-9]{2}$/;
 
         const embed = new MessageEmbed()
-            .setTitle('Remove subject')
             .setColor(0x57F278);
             
 

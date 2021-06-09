@@ -6,11 +6,11 @@ module.exports = {
     minArgs: 1,
     maxArgs: 5,
     arguments: '<subject code> {subject code}',
+    cooldown: 5,
     execute: async ({message, args}) => {
         const subjectRegex = /^[a-z]{4}[1-4][0-9]{2}$/;
 
         const embed = new MessageEmbed()
-            .setTitle('Leave subject')
             .setColor(0x57F278);
 
         const guild = await message.client.guilds.fetch(process.env.GUILD);

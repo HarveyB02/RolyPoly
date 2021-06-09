@@ -8,7 +8,7 @@ module.exports = {
     arguments: '<quantity (1-100)>~int',
     minArgs: 1,
     maxArgs: 1,
-    cooldown: 10,
+    cooldown: 5,
     textOnly: true,
     
     execute: async ({ message, args }) => {
