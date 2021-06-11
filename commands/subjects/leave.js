@@ -13,11 +13,6 @@ module.exports = {
         const embed = new MessageEmbed()
             .setColor(0x57F278);
 
-        const guild = await message.client.guilds.fetch(process.env.GUILD);
-        const member = await guild.members.fetch(message.author.id);
-
-        if (!member) return;
-
         for (var i = 0; i < args.length; i ++) {
             subjectCode = args[i];
 
@@ -25,13 +20,13 @@ module.exports = {
                 embed.addField(subjectCode.toUpperCase(), 'Invalid subject code')
                 embed.setColor(0xED4245);
             } else {
-                const subjectRole = await member.roles.cache.find(role => role.name.toLowerCase() == subjectCode);
+                const subjectRole = await message.member.roles.cache.find(role => role.name.toLowerCase() == subjectCode);
 
                 if (!subjectRole) {
                     embed.addField(subjectCode.toUpperCase(), 'You are not currently in this subject');
                     embed.setColor(0xED4245);
                 } else {
-                    member.roles.remove(subjectRole);
+                    message.member.roles.remove(subjectRole);
                     embed.addField(subjectCode.toUpperCase(), 'Left subject');
                 }
             }

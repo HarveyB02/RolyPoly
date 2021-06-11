@@ -10,12 +10,7 @@ module.exports = {
         const embed = new MessageEmbed()
         .setTitle('Leave subject')
 
-        const guild = await message.client.guilds.fetch(process.env.GUILD);
-        const member = await guild.members.fetch(message.author.id);
-
-        if (!member) return;
-
-        const subjectRoles = member.roles.cache.filter(role => role.name.toLowerCase().match(subjectRegex));
+        const subjectRoles = message.member.roles.cache.filter(role => role.name.toLowerCase().match(subjectRegex));
 
         if (subjectRoles.size == 0) {
             embed.setDescription('You have not joined any subjects');
@@ -25,7 +20,7 @@ module.exports = {
 
             subjectRoles.forEach(role => {
                 subjectNames += role.name + ', '
-                member.roles.remove(role)
+                message.member.roles.remove(role)
             });
 
             embed.setDescription(`Left: ${subjectNames.substring(0, subjectNames.length - 2)}`)
