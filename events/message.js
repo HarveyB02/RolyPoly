@@ -15,7 +15,8 @@ module.exports = {
             let profane = false;
     
             for (var i = 0; i < words.length; i ++) {
-                if (client.filter.includes(words[i].toLowerCase().replace(/[^a-z]/g, ''))) {
+                if (client.filter.includes(words[i].toLowerCase().replace(/[^a-z]/g, '')) ||
+                    client.filter.includes(words[i].toLowerCase().replace(/[^a-z]/g, '').replace(/(.)(?=\1)/g, ''))) {
                     profane = true;
                     words[i] = words[i].replace(/./g, '\\*');
                 }
@@ -220,10 +221,10 @@ module.exports = {
 function sendWebhook(channel, username, content, avatarURL) {
     channel.fetchWebhooks()
         .then(webhook => {
-            let foundHook = webhook.find(w => w.name == client.user.username);
+            let foundHook = webhook.find(w => w.name == channel.client.user.username);
 
             if (!foundHook) {
-                channel.createWebhook(client.user.username, client.user.displayAvatarURL())
+                channel.createWebhook(channel.client.user.username, channel.client.user.displayAvatarURL())
                     .then(webhook => {
                         webhook.send('', {
                             'username': username,
