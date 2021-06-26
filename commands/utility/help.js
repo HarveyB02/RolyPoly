@@ -7,7 +7,7 @@ module.exports = {
     execute: async ({message, args}) => {
         const { commands, config } = message.client;
 
-        if (!args.length) {
+        /*if (!args.length) {
             var commandList = '';
 
             await Promise.all(commands.map(async command => {
@@ -25,6 +25,6 @@ module.exports = {
             data.push(`\nYou can send \`${config.prefix}help [command name]\` to get info on a specific command!`);
 
             message.channel.send(data, { split: true });
-        }
+        }*/
     }
 }

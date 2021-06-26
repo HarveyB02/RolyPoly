@@ -1,4 +1,4 @@
-const index = require('../../index');
+const index = require('../../RolyPoly');
 const { MessageEmbed } = require("discord.js");
 
 module.exports = {
