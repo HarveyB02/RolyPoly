@@ -1,6 +1,7 @@
 // Importing modules
 const Discord = require('discord.js');
 const fs = require('fs');
+const mongoose = require('mongoose');
 require('dotenv').config();
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 
@@ -8,6 +9,7 @@ const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION']
 client.commands = new Discord.Collection();
 client.cooldowns = new Discord.Collection();
 client.config = require('./config.json');
+client.Database = require('./database/mongoose.js');
 client.tools = require('./tools.js');
 
 async function init() {
@@ -34,8 +36,20 @@ async function init() {
         }
     }
 
+    mongoose.connect(`mongodb+srv://dbAdmin:${process.env.MONGOPASS}@cluster0.tnswn.mongodb.net/RolyPoly?retryWrites=true&w=majority`, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    }).then(() => {
+        console.log('Connected to MongoDB');
+    }).catch((error) => {
+        console.log(`Unable to connect to MongoDB Database.\nError: ${error}`);
+    });
+
     await client.login(process.env.TOKEN);
 }
 
 init();
 
+process.on('unhandledRejection', error => {
+    console.log(`Unknown error occured:\n${error}`);
+});

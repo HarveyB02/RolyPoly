@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const filter = require('../filter.json');
 
-module.exports.execute = (message, client) => {
+module.exports.execute = async (message, client) => {
     // Get full message from partial
     if (message.partial) {
         message.fetch()
@@ -31,13 +31,18 @@ module.exports.execute = (message, client) => {
         }
     }
 
-    // Gettting arguments
-    var args;
+    // Gettting arguments & data
+    var args, guildData;
     if (message.channel.type == 'dm') {
         args = message.content.trim().split(/ +/);
     } else {
-        args = message.content.slice(client.config.prefix.length).trim().split(/ +/);
-        if (!message.content.startsWith(client.config.prefix)) return;
+        if (!message.guild.prefix) {
+            guildData = await client.Database.fetchGuild(message.guild.id);
+            message.guild.prefix = guildData.prefix;
+        }
+
+        args = message.content.slice(message.guild.prefix.length).trim().split(/ +/);
+        if (!message.content.startsWith(message.guild.prefix)) return;
     }
 
     // Getting command name
@@ -98,7 +103,7 @@ module.exports.execute = (message, client) => {
             let description = 'Not enough arguments were provided';
 
             if (command.arguments) {
-                description += `, please use \`\`\`\n${command.dmOnly ? "" : client.config.prefix}${commandName} ${command.arguments.replace(/~.+?( |$)/g, '')}\`\`\``;
+                description += `, please use \`\`\`\n${command.dmOnly ? "" : message.guild.prefix}${commandName} ${command.arguments.replace(/~.+?( |$)/g, '')}\`\`\``;
             }
 
             client.tools.errorMsg(message, 'Not enough arguments', description);
@@ -112,7 +117,7 @@ module.exports.execute = (message, client) => {
             let description = 'Too many arguments were provided';
 
             if (command.arguments) {
-                description += `, please use \`\`\`\n${command.dmOnly ? "" : client.config.prefix}${commandName} ${command.arguments.replace(/~.+?( |$)/g, '')}\`\`\``;
+                description += `, please use \`\`\`\n${command.dmOnly ? "" : message.guild.prefix}${commandName} ${command.arguments.replace(/~.+?( |$)/g, '')}\`\`\``;
             }
 
             client.tools.errorMsg(message, 'Too many arguments', description);
@@ -131,7 +136,7 @@ module.exports.execute = (message, client) => {
                 // Check valid integer
                 case 'int':
                     if (isNaN( parseInt(args[i]) )) {
-                        var description = `Invalid number was provided, please use \`\`\`${command.dmOnly ? "" : client.config.prefix}${commandName} ${command.arguments.replace(/~.+?( |$)/g, '')}\`\`\``;
+                        var description = `Invalid number was provided, please use \`\`\`${command.dmOnly ? "" : message.guild.prefix}${commandName} ${command.arguments.replace(/~.+?( |$)/g, '')}\`\`\``;
                         
                         client.tools.errorMsg(message, 'Invalid argument type', description);
                         return;
@@ -145,7 +150,7 @@ module.exports.execute = (message, client) => {
                     const channel = message.guild.channels.cache.find(c => c.id == args[i].replace(/[<#>]/g, ''));
 
                     if (!channel) {
-                        var description = `Invalid channel was provided, please use \`\`\`${command.dmOnly ? "" : client.config.prefix}${commandName} ${command.arguments.replace(/~.+?( |$)/g, '')}\`\`\``;
+                        var description = `Invalid channel was provided, please use \`\`\`${command.dmOnly ? "" : message.guild.prefix}${commandName} ${command.arguments.replace(/~.+?( |$)/g, '')}\`\`\``;
                         
                         client.tools.errorMsg(message, 'Invalid argument type', description);
                         return;
@@ -161,7 +166,7 @@ module.exports.execute = (message, client) => {
                     const role = message.guild.roles.cache.find(r => r.id == args[i].replace(/[<@&>]/g, ''));
 
                     if (!role) {
-                        var description = `Invalid role was provided, please use \`\`\`${command.dmOnly ? "" : client.config.prefix}${commandName} ${command.arguments.replace(/~.+?( |$)/g, '')}\`\`\``;
+                        var description = `Invalid role was provided, please use \`\`\`${command.dmOnly ? "" : message.guild.prefix}${commandName} ${command.arguments.replace(/~.+?( |$)/g, '')}\`\`\``;
                         
                         client.tools.errorMsg(message, 'Invalid argument type', description);
                         return;
@@ -177,7 +182,7 @@ module.exports.execute = (message, client) => {
                     const member = message.guild.members.cache.find(m => m.id == args[i].replace(/[<@!>]/g, ''))
 
                     if (!member) {
-                        var description = `Invalid user was provided, please use \`\`\`${command.dmOnly ? "" : client.config.prefix}${commandName} ${command.arguments.replace(/~.+?( |$)/g, '')}\`\`\``;
+                        var description = `Invalid user was provided, please use \`\`\`${command.dmOnly ? "" : message.guild.prefix}${commandName} ${command.arguments.replace(/~.+?( |$)/g, '')}\`\`\``;
                         
                         client.tools.errorMsg(message, 'Invalid argument type', description);
                         return;
@@ -214,21 +219,22 @@ module.exports.execute = (message, client) => {
         setTimeout(() => timestamps.delete(message.author.id), cooldownTime);
     }
 
-    // Run command
-    const params = {
-        message: message,
-        args: args
-    };
+    // Get data
+    var data = {};
+    if (!guildData && message.channel.type == 'text') {
+        guildData = await client.Database.fetchGuild(message.guild.id);
+        data.guild = guildData;
+    }                                                                                                                                         
+
+    // Execute command
     try {
-        command.execute(params);
+        command.execute({
+            client: client,
+            message: message,
+            args: args,
+            data: data
+        });
     } catch (error) {
-        if (command.error) {
-            try {
-                command.error(params, error);
-            } catch (error) {
-                message.reply('An error occured while executing this command');
-            }
-            message.reply(error);
-        }
+        message.reply('An error occured while executing this command');
     }
 }

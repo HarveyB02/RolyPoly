@@ -9,7 +9,7 @@ module.exports = {
     cooldown: 5,
     textOnly: true,
     
-    execute: async ({ message, args }) => {
+    execute: async ({ client, message, args }) => {
         const subjectRegex = /^[a-z]{4}[1-4][0-9]{2}$/;
 
         const embed = new MessageEmbed()

@@ -9,7 +9,7 @@ module.exports = {
     cooldown: 5,
     textOnly: true,
     
-    execute: async ({ message, args }) => {
+    execute: async ({ client, message, args }) => {
         const subjectRegex = /^[a-z]{4}[1-4][0-9]{2}$/;
 
         const embed = new MessageEmbed()
@@ -32,7 +32,7 @@ module.exports = {
                 var subjectRole = await message.guild.roles.create({
                     data: {
                         name: subjectCode.toUpperCase(),
-                        color: message.client.config.roleColour
+                        color: client.config.roleColour
                     }
                 });
 

@@ -4,8 +4,8 @@ module.exports = {
     description: 'List all commands and info',
     arguments: '[command name]',
     cooldown: 5,
-    execute: async ({message, args}) => {
-        const { commands, config } = message.client;
+    execute: async ({ client, message, args }) => {
+        const { commands, config } = client;
 
         /*if (!args.length) {
             var commandList = '';

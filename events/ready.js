@@ -8,6 +8,6 @@ module.exports = {
                 type: "PLAYING"
             }
         });
-        console.log('Loaded');
+        console.log('Connected to Discord');
     }
 }

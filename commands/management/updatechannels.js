@@ -8,7 +8,7 @@ module.exports = {
     cooldown: 30,
     textOnly: true,
     
-    execute: async ({ message, args }) => {
+    execute: async ({ client, message, args }) => {
         const subjectCategories = await message.guild.channels.cache.filter(channel => channel.type == 'category' && channel.name.toLowerCase().replace(/[0-4]/g, '') == ' level subjects');
 
         subjectCategories.forEach(async category => {

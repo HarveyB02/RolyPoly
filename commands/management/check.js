@@ -7,7 +7,7 @@ module.exports = {
     cooldown: 30,
     textOnly: true,
     
-    execute: async ({ message, args }) => {
+    execute: async ({ client, message, args }) => {
         var categories = '';
         var channels = '';
         var roles = '';
@@ -32,7 +32,7 @@ module.exports = {
                     subjectRole = await message.guild.roles.create({
                         data: {
                             name: channel.name,
-                            color: message.client.config.roleColour
+                            color: client.config.roleColour
                         }
                     });
                     

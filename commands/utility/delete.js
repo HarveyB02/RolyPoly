@@ -11,7 +11,7 @@ module.exports = {
     cooldown: 5,
     textOnly: true,
     
-    execute: async ({ message, args }) => {
+    execute: async ({ client, message, args }) => {
         if (!message || !args) return;
 
         if (args[0] > 100 || args[0] <= 0) {

@@ -1,4 +1,5 @@
 {
     "prefix": "*",
-    "roleColour": "#58acf9"
+    "roleColour": "#58acf9",
+    "ownerIDs": ["378819717324079104"]
 }

@@ -7,7 +7,7 @@ module.exports = {
     maxArgs: 5,
     arguments: '<subject code> {subject code}',
     cooldown: 10,
-    execute: async ({message, args}) => {
+    execute: async ({ client, message, args }) => {
         const subjectRegex = /^[a-z]{4}[1-4][0-9]{2}$/;
 
         const embed = new MessageEmbed()

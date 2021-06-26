@@ -4,7 +4,7 @@ module.exports = {
     description: 'Leave all the subjects you have joined',
     dmOnly: false,
     cooldown: 10,
-    execute: async ({message}) => {
+    execute: async ({ client, message, args }) => {
         const subjectRegex = /^[a-z]{4}[1-4][0-9]{2}$/;
 
         const subjectRoles = message.member.roles.cache.filter(role => role.name.toLowerCase().match(subjectRegex));
