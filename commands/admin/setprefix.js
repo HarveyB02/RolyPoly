@@ -1,6 +1,7 @@
 module.exports = {
     description: 'Change bot prefix',
     permissions: ['ADMINISTRATOR'],
+    textOnly: true,
     minArgs: 1,
     maxArgs: 1,
     arguments: '<prefix>',

@@ -26,10 +26,14 @@ module.exports = {
                 embed.setColor(0xED4245);
             } else {
                 const subjectRole = await message.guild.roles.cache.find(role => role.name.toLowerCase() == subjectCode);
+                const subjectChannel = await message.guild.channels.cache.find(channel => channel.name.toLowerCase() == subjectCode);
 
-                if (subjectRole) {
-                    message.member.roles.add(subjectRole);
-                    embed.addField(subjectCode.toUpperCase(), 'Sucessfully joined')
+                if (subjectRole || subjectChannel) {
+                    if (!subjectRole || !subjectChannel) {
+                        await client.tools.createSubject(message.guild, subjectCode, message.member);
+                    }
+                    
+                    embed.addField(subjectCode.toUpperCase(), 'Sucessfully joined');
                 } else {
                     var modChannel = await message.guild.channels.cache.find(channel => channel.name.toLowerCase() == 'subject-requests' && channel.type == 'text');
 

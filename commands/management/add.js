@@ -22,42 +22,15 @@ module.exports = {
             if (!subjectCode.match(subjectRegex)) {
                 embed.addField(subjectCode.toUpperCase(), 'Invalid subject code')
                 embed.setColor(0xED4245);
+                continue;
             }
 
-            else if (message.guild.roles.cache.find(role => role.name.toLowerCase() == subjectCode) ||
+            if (message.guild.roles.cache.find(role => role.name.toLowerCase() == subjectCode) ||
                 message.guild.channels.cache.find(channel => channel.name.toLowerCase() == subjectCode && channel.type == 'text')) {
                     embed.addField(subjectCode.toUpperCase(), 'Subject already exists')
                     embed.setColor(0xED4245);
             } else {
-                var subjectRole = await message.guild.roles.create({
-                    data: {
-                        name: subjectCode.toUpperCase(),
-                        color: client.config.roleColour
-                    }
-                });
-
-                var subjectLvl = subjectCode.match(/\d/) + '00 level subjects'
-
-                var parent = await message.guild.channels.cache.find(channel => channel.name.toLowerCase() == subjectLvl && channel.type == 'category');
-
-                if (!parent) {
-                    parent = await message.guild.channels.create(subjectLvl, {
-                        type: 'category'
-                    });
-
-                    parent.updateOverwrite(message.guild.roles.everyone, {
-                        'VIEW_CHANNEL': false
-                    });
-                }
-
-                var subjectChannel = await message.guild.channels.create(subjectCode, {
-                    type: 'text',
-                    parent: parent
-                });
-
-                subjectChannel.updateOverwrite(subjectRole, {
-                    'VIEW_CHANNEL': true
-                });
+                client.tools.createSubject(message.guild, subjectCode);
 
                 embed.addField(subjectCode.toUpperCase(), 'Successfully added')
             }

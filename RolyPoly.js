@@ -36,20 +36,36 @@ async function init() {
         }
     }
 
-    mongoose.connect(`mongodb+srv://dbAdmin:${process.env.MONGOPASS}@cluster0.tnswn.mongodb.net/RolyPoly?retryWrites=true&w=majority`, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    }).then(() => {
-        console.log('Connected to MongoDB');
-    }).catch((error) => {
-        console.log(`Unable to connect to MongoDB Database.\nError: ${error}`);
-    });
+    // Connect
+    await Promise.all([
+        mongoose.connect(`mongodb+srv://dbAdmin:${process.env.MONGOPASS}@cluster0.tnswn.mongodb.net/RolyPoly?retryWrites=true&w=majority`, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        }).then(() => {
+            console.log('Connected to MongoDB');
+        }).catch((error) => {
+            console.log(`Unable to connect to MongoDB Database.\nError: ${error}`);
+        }), 
 
-    await client.login(process.env.TOKEN);
+        client.login(process.env.TOKEN)
+    ]);
+
+    // Checks
+    client.emit('semiCheck');
+    client.emit('fullCheck');
+
+    setInterval(() => {
+        client.emit('semiCheck');
+    }, 1 * 60000);
+    setInterval(() => {
+        client.emit('fullCheck');
+    }, 30 * 60000);
+    
+    console.log('Init complete')
 }
 
 init();
 
-process.on('unhandledRejection', error => {
+/*process.on('unhandledRejection', error => {
     console.log(`Unknown error occured:\n${error}`);
-});
+});*/

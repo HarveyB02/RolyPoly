@@ -22,6 +22,7 @@ module.exports = {
             if (!subjectCode.match(subjectRegex)) {
                 embed.addField(subjectCode.toUpperCase(), 'Invalid subject code')
                 embed.setColor(0xED4245);
+                continue;
             }
 
             var subjectRole = await message.guild.roles.cache.find(role => role.name.toLowerCase() == subjectCode);
