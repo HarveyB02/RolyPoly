@@ -4,9 +4,10 @@ module.exports = {
     description: 'List all commands and info',
     arguments: '[command name]',
     cooldown: 5,
+    textOnly: true,
     execute: async ({ client, message, args }) => {
         const { commands, config } = client;
-
+        // todo
         /*if (!args.length) {
             var commandList = '';
 

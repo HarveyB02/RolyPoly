@@ -6,9 +6,12 @@ module.exports = {
     maxArgs: 1,
     arguments: '<prefix>',
     cooldown: 5,
-    execute: async ({ client, message, args, data }) => {
+    execute: async ({ message, args, data }) => {
+        // Updating prefix in cache
         data.guild.prefix = args[0];
         message.guild.prefix = args[0];
+        // Updating prefix in database
         await data.guild.save();
+        message.react('✅');
     }
 }

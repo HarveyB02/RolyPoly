@@ -31,13 +31,18 @@ module.exports.execute = async (message, client) => {
         }
     }
 
+    // Help
+    if (message.mentions.users.find(u => u.id == client.user.id)){
+        message.reply('Imagine finishing the help menu 😔');
+    }
+
     // Gettting arguments & data
     var args, guildData;
     if (message.channel.type == 'dm') {
         args = message.content.trim().split(/ +/);
     } else {
         if (!message.guild.prefix) {
-            guildData = await client.Database.fetchGuild(message.guild.id);
+            guildData = await client.database.fetchGuild(message.guild.id);
             message.guild.prefix = guildData.prefix;
         }
 
@@ -103,7 +108,10 @@ module.exports.execute = async (message, client) => {
             let description = 'Not enough arguments were provided';
 
             if (command.arguments) {
-                description += `, please use \`\`\`\n${command.dmOnly ? "" : message.guild.prefix}${commandName} ${command.arguments.replace(/~.+?( |$)/g, '')}\`\`\``;
+                description += `, please use \`\`\`\n${command.dmOnly ? '' : message.guild.prefix}${commandName} ${command.arguments.replace(/~.+?(?=( |$))/g, '')}\`\`\``;
+                if (command.example) {
+                    description += `For example: \`\`\`\n${command.dmOnly ? '' : message.guild.prefix}${commandName} ${command.example}\`\`\``
+                }
             }
 
             client.tools.errorMsg(message, 'Not enough arguments', description);
@@ -117,7 +125,7 @@ module.exports.execute = async (message, client) => {
             let description = 'Too many arguments were provided';
 
             if (command.arguments) {
-                description += `, please use \`\`\`\n${command.dmOnly ? "" : message.guild.prefix}${commandName} ${command.arguments.replace(/~.+?( |$)/g, '')}\`\`\``;
+                description += `, please use \`\`\`\n${command.dmOnly ? '' : message.guild.prefix}${commandName} ${command.arguments.replace(/~.+?(?=( |$))/g, '')}\`\`\``;
             }
 
             client.tools.errorMsg(message, 'Too many arguments', description);
@@ -136,7 +144,7 @@ module.exports.execute = async (message, client) => {
                 // Check valid integer
                 case 'int':
                     if (isNaN( parseInt(args[i]) )) {
-                        var description = `Invalid number was provided, please use \`\`\`${command.dmOnly ? "" : message.guild.prefix}${commandName} ${command.arguments.replace(/~.+?( |$)/g, '')}\`\`\``;
+                        var description = `Invalid number was provided, please use \`\`\`${command.dmOnly ? '' : message.guild.prefix}${commandName} ${command.arguments.replace(/~.+?(?=( |$))/g, '')}\`\`\``;
                         
                         client.tools.errorMsg(message, 'Invalid argument type', description);
                         return;
@@ -150,7 +158,7 @@ module.exports.execute = async (message, client) => {
                     const channel = message.guild.channels.cache.find(c => c.id == args[i].replace(/[<#>]/g, ''));
 
                     if (!channel) {
-                        var description = `Invalid channel was provided, please use \`\`\`${command.dmOnly ? "" : message.guild.prefix}${commandName} ${command.arguments.replace(/~.+?( |$)/g, '')}\`\`\``;
+                        var description = `Invalid channel was provided, please use \`\`\`${command.dmOnly ? '' : message.guild.prefix}${commandName} ${command.arguments.replace(/~.+?(?=( |$))/g, '')}\`\`\``;
                         
                         client.tools.errorMsg(message, 'Invalid argument type', description);
                         return;
@@ -166,7 +174,7 @@ module.exports.execute = async (message, client) => {
                     const role = message.guild.roles.cache.find(r => r.id == args[i].replace(/[<@&>]/g, ''));
 
                     if (!role) {
-                        var description = `Invalid role was provided, please use \`\`\`${command.dmOnly ? "" : message.guild.prefix}${commandName} ${command.arguments.replace(/~.+?( |$)/g, '')}\`\`\``;
+                        var description = `Invalid role was provided, please use \`\`\`${command.dmOnly ? '' : message.guild.prefix}${commandName} ${command.arguments.replace(/~.+?(?=( |$))/g, '')}\`\`\``;
                         
                         client.tools.errorMsg(message, 'Invalid argument type', description);
                         return;
@@ -182,7 +190,7 @@ module.exports.execute = async (message, client) => {
                     const member = message.guild.members.cache.find(m => m.id == args[i].replace(/[<@!>]/g, ''))
 
                     if (!member) {
-                        var description = `Invalid user was provided, please use \`\`\`${command.dmOnly ? "" : message.guild.prefix}${commandName} ${command.arguments.replace(/~.+?( |$)/g, '')}\`\`\``;
+                        var description = `Invalid user was provided, please use \`\`\`${command.dmOnly ? '' : message.guild.prefix}${commandName} ${command.arguments.replace(/~.+?(?=( |$))/g, '')}\`\`\``;
                         
                         client.tools.errorMsg(message, 'Invalid argument type', description);
                         return;
@@ -221,13 +229,15 @@ module.exports.execute = async (message, client) => {
 
     // Get data
     var data = {};
+    data.command = command;
     if (!guildData && message.channel.type == 'text') {
-        guildData = await client.Database.fetchGuild(message.guild.id);
+        guildData = await client.database.fetchGuild(message.guild.id);
         data.guild = guildData;
     }                                                                                                                                         
 
     // Execute command
     try {
+        client.tools.log(`@${message.author.tag} used "${message.content}"`, message.guild);
         command.execute({
             client: client,
             message: message,
@@ -235,6 +245,7 @@ module.exports.execute = async (message, client) => {
             data: data
         });
     } catch (error) {
+        console.log(error);
         message.reply('An error occured while executing this command');
     }
 }

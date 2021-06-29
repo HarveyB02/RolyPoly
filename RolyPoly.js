@@ -9,8 +9,11 @@ const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION']
 client.commands = new Discord.Collection();
 client.cooldowns = new Discord.Collection();
 client.config = require('./config.json');
-client.Database = require('./database/mongoose.js');
-client.tools = require('./tools.js');
+client.database = require('./database/mongoose.js');
+client.tools = require('./tools/tools.js');
+client.muteTools = require('./tools/muteTools.js');
+client.subjectTools = require('./tools/subjectTools.js');
+client.subjectRegex = /^[a-z]{4}[1-4][0-9]{2}$/;
 
 async function init() {
     // Load Discordjs Events
@@ -42,9 +45,9 @@ async function init() {
             useNewUrlParser: true,
             useUnifiedTopology: true
         }).then(() => {
-            console.log('Connected to MongoDB');
+            client.tools.log('Connected to MongoDB');
         }).catch((error) => {
-            console.log(`Unable to connect to MongoDB Database.\nError: ${error}`);
+            client.tools.log(`Unable to connect to MongoDB Database.\nError: ${error}`);
         }), 
 
         client.login(process.env.TOKEN)
@@ -56,12 +59,10 @@ async function init() {
 
     setInterval(() => {
         client.emit('semiCheck');
-    }, 1 * 60000);
+    }, 5 * 60000);
     setInterval(() => {
         client.emit('fullCheck');
     }, 30 * 60000);
-    
-    console.log('Init complete')
 }
 
 init();

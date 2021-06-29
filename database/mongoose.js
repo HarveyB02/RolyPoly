@@ -15,6 +15,28 @@ module.exports.fetchGuild = async (key) => {
     }
 }
 
+module.exports.isMuted = async (client, userID, guildID) => {
+    // Check if user has muted role
+    var guild = await client.guilds.cache.find(g => g.id == guildID);
+    if (guild) {
+        var member = await guild.members.cache.find(m => m.id == userID);
+        if (member) {
+            var mutedRole = await member.roles.cache.find(r => r.name.toLowerCase() == 'muted');
+            if (mutedRole) {
+                return true;
+            }
+        }
+    }
+
+    // If user isn't muted, but entry is in DB, delete entry
+    let muteDB = await muteSchema.findOne({ userID: userID, guildID: guildID });
+    if (muteDB) {
+        muteDB.remove();
+    }
+
+    return false;
+}
+
 module.exports.createMute = async (userID, guildID, expires) => {
     new muteSchema({
         userID: userID,
@@ -23,21 +45,23 @@ module.exports.createMute = async (userID, guildID, expires) => {
     }).save();
 }
 
-module.exports.checkMutes = (client) => {
+module.exports.checkMutes = async (client) => {
+    // Loop through all users
     muteSchema.find({}, (err, users) => {
-        users.map(user => {
+        users.map(async user => {
+            // Check if mute expired
             if (user.expires < Date.now()) {
                 user.remove();
 
-                var guild = client.guilds.cache.find(g => g.id == user.guildID);
+                var guild = await client.guilds.cache.find(g => g.id == user.guildID);
                 if (!guild) return;
-                var member = guild.members.cache.find(m => m.id == user.userID);
+                var member = await guild.members.cache.find(m => m.id == user.userID);
                 if (!member) return;
-                var mutedRole = member.roles.cache.find(r => r.name.toLowerCase() == 'muted');
+                var mutedRole = await member.roles.cache.find(r => r.name.toLowerCase() == 'muted');
                 if (!mutedRole) return;
 
                 member.roles.remove(mutedRole);
-                console.log(`Unmuted ${member.name} from ${guild.name}`);
+                client.tools.log(`Unmuted @${member.user.tag}`, guild);
             }
         });
     });

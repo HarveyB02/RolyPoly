@@ -1,4 +1,5 @@
 const { MessageEmbed } = require("discord.js");
+const config = require('../../config.json');
 
 module.exports = {
     description: 'Deletes a subject channel and it\'s matching role',
@@ -10,37 +11,43 @@ module.exports = {
     textOnly: true,
     
     execute: async ({ client, message, args }) => {
-        const subjectRegex = /^[a-z]{4}[1-4][0-9]{2}$/;
-
+        // Create response embed
         const embed = new MessageEmbed()
-            .setColor(0x57F278);
-            
-
+            .setColor(config.successColour);
+        
+        // Loop through subject codes
         for (var i = 0; i < args.length; i ++) {
             let subjectCode = args[i];
 
-            if (!subjectCode.match(subjectRegex)) {
+            // Check if code is valid
+            if (!subjectCode.match(client.subjectRegex)) {
                 embed.addField(subjectCode.toUpperCase(), 'Invalid subject code')
-                embed.setColor(0xED4245);
+                embed.setColor(config.failColour);
                 continue;
             }
 
+            // Removing subject channel / role
             var subjectRole = await message.guild.roles.cache.find(role => role.name.toLowerCase() == subjectCode);
             var subjectChannel = await message.guild.channels.cache.find(channel => channel.name.toLowerCase() == subjectCode);
-
-            if (subjectRole && subjectChannel) {
+            if (subjectRole) {
                 subjectRole.delete();
+                client.tools.log(`Deleted @${subjectRole.name}`, message.guild);
+            }
+            if (subjectChannel) {
                 subjectChannel.delete();
+                client.tools.log(`Deleted #${subjectChannel.name}`, message.guild);
+            }
+            
+            // Creating response
+            if (subjectRole && subjectChannel) {
                 embed.addField(subjectCode.toUpperCase(), 'Removed role and channel');
             } else if (subjectRole) {
-                subjectRole.delete();
                 embed.addField(subjectCode.toUpperCase(), 'Removed role, channel does not exist');
             } else if (subjectChannel) {
-                subjectChannel.delete();
                 embed.addField(subjectCode.toUpperCase(), 'Removed channel, role does not exist');
             } else {
                 embed.addField(subjectCode.toUpperCase(), 'Does not exist');
-                embed.setColor(0xED4245);
+                embed.setColor(config.failColour);
             }
         }
 

@@ -1,5 +1,5 @@
 module.exports = {
-    execute: (client) => {
-        client.Database.checkMutes(client);
+    execute: async (client) => {
+        await client.database.checkMutes(client);
     }
 }

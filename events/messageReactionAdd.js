@@ -11,10 +11,12 @@ module.exports = {
             }
         }
 
+        // Check if valid request msg
         if (reaction.message.author.id != client.user.id) return;
         if (reaction.message.embeds[0].title != 'Subject Approval Request') return;
         if (reaction.count != 2) return;
 
+        // Parse info from request msg
         var subjectCode = reaction.message.embeds[0].fields[1].value.toLowerCase();
         var memberID = reaction.message.embeds[0].fields[0].value;
         memberID = memberID.substring(2, memberID.length - 1);
@@ -24,10 +26,11 @@ module.exports = {
         
         if (!member) return;
 
+        // Accept request
         if (reaction.emoji.name == '✅') {
             reaction.message.delete();
             
-            client.tools.createSubject(guild, subjectCode, member);
+            client.subjectTools.createSubject(guild, subjectCode, member);
 
             const embed = new MessageEmbed()
                 .setTitle(`${guild.name} - ${subjectCode.toUpperCase()} Subject Request`)
@@ -36,12 +39,13 @@ module.exports = {
 
             member.send(embed);
 
+        // Deny request
         } else if (reaction.emoji.name == '❌') {
             reaction.message.delete();
 
             const embed = new MessageEmbed()
                 .setTitle(`${guild.name} - ${subjectCode.toUpperCase()} Subject Request`)
-                .setDescription(`Your request to create the subject channel **${subjectCode.toUpperCase()}** has been denied. This is most likely because the subject you requested is not a real UOW CSIT subject.`)
+                .setDescription(`Your request to create the subject channel **${subjectCode.toUpperCase()}** has been denied. This is most likely because the subject you requested is not a real UOW subject.`)
                 .setFooter('If you believe this is a mistake, please contact a moderator')
                 .setColor(0xED4245);
 

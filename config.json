@@ -1,5 +1,8 @@
 {
     "prefix": "*",
-    "roleColour": "#58acf9",
-    "ownerIDs": ["378819717324079104"]
+    "subjectRoleColour": "#58acf9",
+    "mutedRoleColour": "#5d5d5d",
+    "ownerIDs": ["378819717324079104"],
+    "successColour": "#57F278",
+    "failColour": "#ED4245"
 }

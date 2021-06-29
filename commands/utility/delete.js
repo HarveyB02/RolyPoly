@@ -1,5 +1,5 @@
-const index = require('../../RolyPoly');
 const { MessageEmbed } = require("discord.js");
+const config = require('../../config.json');
 
 module.exports = {
     aliases: ['del', 'purge', 'prune'],
@@ -10,27 +10,22 @@ module.exports = {
     maxArgs: 1,
     cooldown: 5,
     textOnly: true,
-    
     execute: async ({ client, message, args }) => {
-        if (!message || !args) return;
-
+        // Checking quantity
         if (args[0] > 100 || args[0] <= 0) {
-            index.replyError(message, 'Argument out of bounds','The number you entered is too high/low');
+            client.tools.errorMsg (message, 'Argument out of bounds','The number you entered is too high/low');
             return;
         }
 
-        const channel = message.channel;
+        // Deleting
         await message.delete()
-            .catch(console.error);
-        
-        const messages = await channel.bulkDelete(args[0])
-            .catch(console.error);
+        const messages = await message.channel.bulkDelete(args[0])
         
         const embed = new MessageEmbed()
             .setTitle(messages.size == 1 ? `Deleted 1 message` : `Deleted ${ messages.size } messages`)
             .setColor(0x57F278);
 
-        channel.send(embed)
+        message.channel.send(embed)
             .then( m => {
                 m.delete({ timeout: 5000 })
                     .catch(console.error);
