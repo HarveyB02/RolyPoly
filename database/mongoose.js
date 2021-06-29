@@ -45,6 +45,14 @@ module.exports.createMute = async (userID, guildID, expires) => {
     }).save();
 }
 
+module.exports.removeMute = async (userID, guildID) => {
+    muteSchema.find({ userID: userID, guildID: guildID }, (err, users) => {
+        users.map(async user => {
+            user.remove();                                                      
+        });
+    });
+}
+
 module.exports.checkMutes = async (client) => {
     // Loop through all users
     muteSchema.find({}, (err, users) => {

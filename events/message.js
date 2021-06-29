@@ -237,7 +237,8 @@ module.exports.execute = async (message, client) => {
 
     // Execute command
     try {
-        client.tools.log(`@${message.author.tag} used "${message.content}"`, message.guild);
+        // Logging and running command
+        client.tools.log(`(${message.channel.name ? `#${message.channel.name}` : 'DM'}) @${message.author.tag} used "${message.channel.type != 'dm' ? message.content.substring(message.guild.prefix.length, message.content.length) : message.content}"`, message.guild);
         command.execute({
             client: client,
             message: message,
