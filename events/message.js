@@ -142,7 +142,7 @@ module.exports.execute = async (message, client) => {
     // Check argument types
     if (command.arguments) {
         // Regex to find argument type, matched with optional or not
-        argTypes = command.arguments.replace(/<.*?(?=>)|\[.*?(?=])| /g, '')
+        argTypes = command.arguments.replace(/<.*?(?=>)|\[.*?(?=])| |]$/g, '')
             .replace(/>~/g, ' <')
             .replace(/]~/g, ' [')
             .split(' ');

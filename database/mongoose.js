@@ -30,7 +30,7 @@ module.exports.createMute = async (member, expires) => {
 module.exports.removeMute = async (member) => {
     muteSchema.find({ userID: member.id, guildID: member.guild.id }, (err, mutes) => {
         mutes.map(async mute => {
-            mute.remove();                                                      
+            mute.remove();
         });
     });
 }
@@ -101,6 +101,8 @@ module.exports.checkBans = async (client) => {
                 var guild = await client.guilds.cache.find(g => g.id == ban.guildID);
                 if (!guild) return;
                 
+                const bans = await guild.fetchBans();
+                const ban = bans.find(b => b.user.id == ban.userID);
                 await guild.members.unban(ban.userID);
                 log(`Unbanned <@!${ban.userID}>`, guild);
             }
