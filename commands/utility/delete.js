@@ -13,7 +13,7 @@ module.exports = {
     execute: async ({ client, message, args }) => {
         // Checking quantity
         if (args[0] > 100 || args[0] <= 0) {
-            client.tools.errorMsg (message, 'Argument out of bounds','The number you entered is too high/low');
+            client.tools.errorMsg(message, 'Argument out of bounds','The number you entered is too high/low');
             return;
         }
 

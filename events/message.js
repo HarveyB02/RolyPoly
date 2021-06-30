@@ -37,17 +37,23 @@ module.exports.execute = async (message, client) => {
     }
 
     // Gettting arguments & data
-    var args, guildData;
+    var args;
     if (message.channel.type == 'dm') {
         args = message.content.trim().split(/ +/);
     } else {
-        if (!message.guild.prefix) {
-            guildData = await client.database.fetchGuild(message.guild.id);
-            message.guild.prefix = guildData.prefix;
+        if (!message.guild.data) {
+            message.guild.data = await client.database.fetchGuild(message.guild);
         }
+        args = message.content.slice(message.guild.data.prefix.length).trim().split(/ +/);
+        if (!message.content.startsWith(message.guild.data.prefix)) return;
+    }
 
-        args = message.content.slice(message.guild.prefix.length).trim().split(/ +/);
-        if (!message.content.startsWith(message.guild.prefix)) return;
+    if (message.guild.data.allowListToggle) {
+        if (!message.guild.data.botChannelNames.includes(message.channel.name)) {
+            if (!message.member.hasPermission('MANAGE_GUILD')) {
+                return;
+            }
+        }
     }
 
     // Getting command name
@@ -108,9 +114,9 @@ module.exports.execute = async (message, client) => {
             let description = 'Not enough arguments were provided';
 
             if (command.arguments) {
-                description += `, please use \`\`\`\n${command.dmOnly ? '' : message.guild.prefix}${commandName} ${command.arguments.replace(/~.+?(?=( |$))/g, '')}\`\`\``;
+                description += `, please use \`\`\`\n${command.dmOnly ? '' : message.guild.data.prefix}${commandName} ${command.arguments.replace(/~.+?(?=( |$))/g, '')}\`\`\``;
                 if (command.example) {
-                    description += `For example: \`\`\`\n${command.dmOnly ? '' : message.guild.prefix}${commandName} ${command.example}\`\`\``
+                    description += `For example: \`\`\`\n${command.dmOnly ? '' : message.guild.data.prefix}${commandName} ${command.example}\`\`\``
                 }
             }
 
@@ -125,7 +131,7 @@ module.exports.execute = async (message, client) => {
             let description = 'Too many arguments were provided';
 
             if (command.arguments) {
-                description += `, please use \`\`\`\n${command.dmOnly ? '' : message.guild.prefix}${commandName} ${command.arguments.replace(/~.+?(?=( |$))/g, '')}\`\`\``;
+                description += `, please use \`\`\`\n${command.dmOnly ? '' : message.guild.data.prefix}${commandName} ${command.arguments.replace(/~.+?(?=( |$))/g, '')}\`\`\``;
             }
 
             client.tools.errorMsg(message, 'Too many arguments', description);
@@ -135,17 +141,29 @@ module.exports.execute = async (message, client) => {
 
     // Check argument types
     if (command.arguments) {
-        argType = command.arguments.trim().replace(/[<\[].*?[>\]]| +/g, '').split('~')
-        argType.shift();
+        // Regex to find argument type, matched with optional or not
+        argTypes = command.arguments.replace(/<.*?(?=>)|\[.*?(?=])| /g, '')
+            .replace(/>~/g, ' <')
+            .replace(/]~/g, ' [')
+            .split(' ');
+        argTypes.shift();
 
-        for (var i = 0, exit = false; i < argType.length && !exit; i ++) {
-            switch (argType[i]) {
+        for (var i = 0, exit = false; i < argTypes.length && !exit; i ++) {
+            // Skipping blank unrequired arguments
+            if (!args[i]) {
+                if (argTypes[i].substring(0, 1) == '[') {
+                    continue;
+                } else {
+                    args[i] = '';
+                }
+            }
 
+            const argType = argTypes[i].substring(1, argTypes[i].length);
+            switch (argType) {
                 // Check valid integer
                 case 'int':
                     if (isNaN( parseInt(args[i]) )) {
-                        var description = `Invalid number was provided, please use \`\`\`${command.dmOnly ? '' : message.guild.prefix}${commandName} ${command.arguments.replace(/~.+?(?=( |$))/g, '')}\`\`\``;
-                        
+                        var description = `Invalid number was provided, please use \`\`\`${command.dmOnly ? '' : message.guild.data.prefix}${commandName} ${command.arguments.replace(/~.+?(?=( |$))/g, '')}\`\`\``;
                         client.tools.errorMsg(message, 'Invalid argument type', description);
                         return;
                     }
@@ -153,49 +171,34 @@ module.exports.execute = async (message, client) => {
 
                 // Check valid channel
                 case 'channel':
-                    if (!args[i]) args[i] = '';
-
                     const channel = message.guild.channels.cache.find(c => c.id == args[i].replace(/[<#>]/g, ''));
-
                     if (!channel) {
-                        var description = `Invalid channel was provided, please use \`\`\`${command.dmOnly ? '' : message.guild.prefix}${commandName} ${command.arguments.replace(/~.+?(?=( |$))/g, '')}\`\`\``;
-                        
+                        var description = `Invalid channel was provided, please use \`\`\`${command.dmOnly ? '' : message.guild.data.prefix}${commandName} ${command.arguments.replace(/~.+?(?=( |$))/g, '')}\`\`\``;
                         client.tools.errorMsg(message, 'Invalid argument type', description);
                         return;
                     }
-
                     args[i] = channel;
                     break;
 
                 // Check valid role
                 case 'role':
-                    if (!args[i]) args[i] = '';
-
                     const role = message.guild.roles.cache.find(r => r.id == args[i].replace(/[<@&>]/g, ''));
-
                     if (!role) {
-                        var description = `Invalid role was provided, please use \`\`\`${command.dmOnly ? '' : message.guild.prefix}${commandName} ${command.arguments.replace(/~.+?(?=( |$))/g, '')}\`\`\``;
-                        
+                        var description = `Invalid role was provided, please use \`\`\`${command.dmOnly ? '' : message.guild.data.prefix}${commandName} ${command.arguments.replace(/~.+?(?=( |$))/g, '')}\`\`\``;
                         client.tools.errorMsg(message, 'Invalid argument type', description);
                         return;
                     }
-
                     args[i] = role;
                     break;
 
                 // Check valid member
                 case 'member':
-                    if (!args[i]) args[i] = '';
-
                     const member = message.guild.members.cache.find(m => m.id == args[i].replace(/[<@!>]/g, ''))
-
                     if (!member) {
-                        var description = `Invalid user was provided, please use \`\`\`${command.dmOnly ? '' : message.guild.prefix}${commandName} ${command.arguments.replace(/~.+?(?=( |$))/g, '')}\`\`\``;
-                        
+                        var description = `Invalid user was provided, please use \`\`\`${command.dmOnly ? '' : message.guild.data.prefix}${commandName} ${command.arguments.replace(/~.+?(?=( |$))/g, '')}\`\`\``;
                         client.tools.errorMsg(message, 'Invalid argument type', description);
                         return;
                     }
-
                     args[i] = member;
                     break;
             }
@@ -225,25 +228,16 @@ module.exports.execute = async (message, client) => {
 
         timestamps.set(message.author.id, now);
         setTimeout(() => timestamps.delete(message.author.id), cooldownTime);
-    }
-
-    // Get data
-    var data = {};
-    data.command = command;
-    if (!guildData && message.channel.type == 'text') {
-        guildData = await client.database.fetchGuild(message.guild.id);
-        data.guild = guildData;
-    }                                                                                                                                         
+    }                                                                                                                                      
 
     // Execute command
     try {
         // Logging and running command
-        client.tools.log(`(${message.channel.name ? `#${message.channel.name}` : 'DM'}) @${message.author.tag} used "${message.channel.type != 'dm' ? message.content.substring(message.guild.prefix.length, message.content.length) : message.content}"`, message.guild);
+        client.tools.log(`(${message.channel.name ? `#${message.channel.name}` : 'DM'}) @${message.author.tag} used "${message.channel.type != 'dm' ? message.content.substring(message.guild.data.prefix.length, message.content.length) : message.content}"`, message.guild);
         command.execute({
             client: client,
             message: message,
-            args: args,
-            data: data
+            args: args
         });
     } catch (error) {
         console.log(error);

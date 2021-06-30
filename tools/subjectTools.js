@@ -29,7 +29,7 @@ async function fetchSubjectRole(guild, subjectCode) {
 
     if (!subjectRole) {
         if (!guild.roleColour) {
-            var guildData = await guild.client.database.fetchGuild(guild.id);
+            var guildData = await guild.client.database.fetchGuild(guild);
             guild.roleColour = guildData.roleColour;
         }
 

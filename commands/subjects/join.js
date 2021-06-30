@@ -1,5 +1,6 @@
 const { MessageEmbed } = require("discord.js");
 const config = require('../../config.json');
+const guild = require("../../database/Schema/guild");
 
 module.exports = {
     description:'Join a subject to unlock the subject channel and recieve relevant notifications',
@@ -45,12 +46,11 @@ module.exports = {
                 continue;
             }
 
-            // Fetching mod channel for subject request embed
-            var modChannel = await message.guild.channels.cache.find(channel => channel.name.toLowerCase() == 'subject-requests' && channel.type == 'text');
+            var modChannel = await message.guild.channels.cache.find(channel => channel.name.toLowerCase() == message.guild.data.modChannelName && channel.type == 'text');
             if (!modChannel) {
                 var category = await message.guild.channels.cache.find(channel => channel.name.toLowerCase().startsWith('mod') || channel.name.toLowerCase().startsWith('staff') && channel.type == 'category');
                 if (!category) {
-                    modChannel = await message.guild.channels.create('subject-requests', {
+                    modChannel = await message.guild.channels.create(message.guild.modChannelName, {
                         type: 'text',
                     });
                     await modChannel.updateOverwrite(message.guild.roles.everyone, {
@@ -70,7 +70,7 @@ module.exports = {
             // Sending request embed
             const requestEmbed = new MessageEmbed()
                 .setTitle('Subject Approval Request')
-                embed.setColor(config.successColour)
+                .setColor(config.successColour)
                 .addField('User', `<@${message.author.id}>`, true)
                 .addField('Subject', subjectCode.toUpperCase(), true);
 

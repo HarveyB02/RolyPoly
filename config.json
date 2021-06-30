@@ -4,5 +4,7 @@
     "mutedRoleColour": "#5d5d5d",
     "ownerIDs": ["378819717324079104"],
     "successColour": "#57F278",
-    "failColour": "#ED4245"
+    "failColour": "#ED4245",
+    "modChannelName": "subject-requests",
+    "botChannelName": "bots"
 }
