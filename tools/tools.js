@@ -24,7 +24,7 @@ function format12Hour (date) {
 
 // Message tools
 module.exports.errorMsg = (message, title, description) => {
-    message.delete();
+    if (message.channel.type != 'dm') message.delete();
     
     const embed = new MessageEmbed()
         .setTitle(title)
@@ -63,4 +63,26 @@ module.exports.sendWebhook = (channel, username, content, avatarURL) => {
                     .catch(error => console.log(error));
             }
         })
+}
+
+// Channel tools
+module.exports.fetchModChannel = async (guild) => {
+    var modChannel = await guild.channels.cache.find(channel => channel.name.toLowerCase() == guild.data.modChannelName && channel.type == 'text');
+    if (!modChannel) {
+        var category = await guild.channels.cache.find(channel => channel.name.toLowerCase().startsWith('mod') || channel.name.toLowerCase().startsWith('staff') && channel.type == 'category');
+        if (!category) {
+            modChannel = await guild.channels.create(guild.data.modChannelName, {
+                type: 'text',
+            });
+        } else {
+            modChannel = await guild.channels.create(guild.data.modChannelName, {
+                type: 'text',
+                parent: category
+            });
+        }
+        await modChannel.updateOverwrite(guild.roles.everyone, {
+            'VIEW_CHANNEL': false
+        });
+    }
+    return modChannel;
 }

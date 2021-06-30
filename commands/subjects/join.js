@@ -46,26 +46,7 @@ module.exports = {
                 continue;
             }
 
-            var modChannel = await message.guild.channels.cache.find(channel => channel.name.toLowerCase() == message.guild.data.modChannelName && channel.type == 'text');
-            if (!modChannel) {
-                var category = await message.guild.channels.cache.find(channel => channel.name.toLowerCase().startsWith('mod') || channel.name.toLowerCase().startsWith('staff') && channel.type == 'category');
-                if (!category) {
-                    modChannel = await message.guild.channels.create(message.guild.modChannelName, {
-                        type: 'text',
-                    });
-                    await modChannel.updateOverwrite(message.guild.roles.everyone, {
-                        'VIEW_CHANNEL': false
-                    });
-                } else {
-                    modChannel = await message.guild.channels.create('subject-requests', {
-                        type: 'text',
-                        parent: category
-                    });
-                    await modChannel.updateOverwrite(message.guild.roles.everyone, {
-                        'VIEW_CHANNEL': false
-                    });
-                }
-            }
+            const modChannel = await message.client.tools.fetchModChannel(message.guild);
 
             // Sending request embed
             const requestEmbed = new MessageEmbed()

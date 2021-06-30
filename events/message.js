@@ -46,12 +46,12 @@ module.exports.execute = async (message, client) => {
         }
         args = message.content.slice(message.guild.data.prefix.length).trim().split(/ +/);
         if (!message.content.startsWith(message.guild.data.prefix)) return;
-    }
 
-    if (message.guild.data.allowListToggle) {
-        if (!message.guild.data.botChannelNames.includes(message.channel.name)) {
-            if (!message.member.hasPermission('MANAGE_GUILD')) {
-                return;
+        if (message.guild.data.allowListToggle) {
+            if (!message.guild.data.botChannelNames.includes(message.channel.name)) {
+                if (!message.member.hasPermission('MANAGE_GUILD')) {
+                    return;
+                }
             }
         }
     }
