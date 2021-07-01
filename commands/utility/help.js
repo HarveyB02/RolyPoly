@@ -6,6 +6,7 @@ module.exports = {
     maxArgs: 1,
     cooldown: 5,
     execute: async ({ client, message, args }) => {
+        if (!args) args = []
         if (!args.length) {
             const embed = new MessageEmbed()
                 .setTitle(`${client.user.username} Help Menu`)
@@ -44,6 +45,9 @@ module.exports = {
                         if (command.permissions) {
                             if (!message.member.hasPermission(command.permissions)) return;
                         }
+                    }
+                    if (command.ownerOnly) {
+                        if (!client.config.ownerIDs.includes(message.author.id)) return;
                     }
                     return command;
                 });

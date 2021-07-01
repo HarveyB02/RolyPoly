@@ -11,6 +11,6 @@ module.exports = {
         message.guild.data.prefix = args[0];
         await message.guild.data.save();
         message.react('✅');
-        client.tools.log(`Changed prefix from #${oldPrefix} to #${args[0]}`, message.guild);
+        client.tools.log(`Changed prefix from ${oldPrefix} to ${args[0]}`, message.guild);
     }
 }

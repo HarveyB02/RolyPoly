@@ -59,7 +59,7 @@ module.exports = {
                 // Response
                 embed.setTitle('Disabled allowlist')
                     .setColor(config.successColour)
-                    .setDescription('Bot commands can only be used anywhere');
+                    .setDescription('Bot commands can be used anywhere');
             }
         }
         message.reply(embed);

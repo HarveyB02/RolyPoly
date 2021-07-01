@@ -15,11 +15,11 @@ module.exports = {
 
         // Loop through subject codes
         for (var i = 0; i < args.length; i ++) {
-            subjectCode = args[i];
+            subjectCode = args[i].toLowerCase();
 
             // Check if code is valid
             if (!subjectCode.match(client.subjectRegex)) {
-                embed.addField(subjectCode.toUpperCase(), 'Invalid subject code')
+                embed.addField(subjectCode.toUpperCase(), 'Invalid subject code');
                 embed.setColor(config.failColour);
                 continue;
             }

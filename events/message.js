@@ -32,8 +32,13 @@ module.exports.execute = async (message, client) => {
     }
 
     // Help via mention
-    if (message.mentions.users.find(u => u.id == client.user.id)){
-        message.reply('Imagine finishing the help menu 😔');
+    if (message.content == '<@!847843520777682965>') {
+        let help = await client.commands.find(c => c.name == 'help');
+        help.execute({
+            client: client,
+            message: message
+        });
+        return;
     }
 
     // Gettting arguments & data
@@ -45,6 +50,7 @@ module.exports.execute = async (message, client) => {
             message.guild.data = await client.database.fetchGuild(message.guild);
         }
         args = message.content.slice(message.guild.data.prefix.length).trim().split(/ +/);
+
         if (!message.content.startsWith(message.guild.data.prefix)) return;
 
         if (message.guild.data.allowListToggle) {

@@ -16,18 +16,18 @@ module.exports = {
 
         // Loop through subject codes
         for (var i = 0; i < args.length; i ++) {
-            subjectCode = args[i];
+            let subjectCode = args[i].toLowerCase();
 
             // Check if code is valid
             if (!subjectCode.match(client.subjectRegex)) {
-                embed.addField(subjectCode.toUpperCase(), 'Invalid subject code')
+                embed.addField(subjectCode.toUpperCase(), 'Invalid subject code');
                 embed.setColor(config.failColour);
                 continue;
             }
 
             // Check if already joined
             if (message.member.roles.cache.find(role => role.name.toLowerCase() == subjectCode)) {
-                embed.addField(subjectCode.toUpperCase(), 'You have already joined')
+                embed.addField(subjectCode.toUpperCase(), 'You have already joined');
                 embed.setColor(config.failColour);
                 continue;
             } 
