@@ -35,6 +35,7 @@ async function init() {
         for (const file of commandFiles) {
             const command = require(`./commands/${folder}/${file}`);
             if (!command.name) command.name = file.substring(0, file.length - 3);
+            command.category = folder;
             client.commands.set(command.name, command);
         }
     }

@@ -1,6 +1,6 @@
 module.exports = {
     description: 'Send a message to all staff channels',
-    dmOnly: true,
+    location: 'dm',
     ownerOnly: true,
     minArgs: 1,
     arguments: '<message content>',
@@ -15,6 +15,7 @@ module.exports = {
             message.attachments.map(async attachment => {
                 modChannel.send(attachment.url);
             });
+            message.channel.send(`Messaged ${guild.name} > #${modChannel.name}`);
         }));
     }
 }

@@ -4,7 +4,7 @@ const guild = require("../../database/Schema/guild");
 
 module.exports = {
     description:'Join a subject to unlock the subject channel and recieve relevant notifications',
-    textOnly: true,
+    location: 'text',
     minArgs: 1,
     maxArgs: 5,
     arguments: '<subject code> {subject code}',

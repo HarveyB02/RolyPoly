@@ -1,7 +1,7 @@
 module.exports = {
     description: 'Change where bot messages to server staff are sent, will make channel invisible',
     permissions: ['MANAGE_GUILD'],
-    textOnly: true,
+    location: 'text',
     minArgs: 1,
     maxArgs: 1,
     arguments: '<channel>~channel',

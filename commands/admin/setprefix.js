@@ -1,7 +1,7 @@
 module.exports = {
     description: 'Change bot prefix',
     permissions: ['MANAGE_GUILD'],
-    textOnly: true,
+    location: 'text',
     minArgs: 1,
     maxArgs: 1,
     arguments: '<prefix>',

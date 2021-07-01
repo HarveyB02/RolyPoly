@@ -1,6 +1,6 @@
 module.exports = {
     description: 'Unmute a user',
-    textOnly: true,
+    location: 'text',
     permissions: ['MANAGE_ROLES'],
     minArgs: 1,
     maxArgs: 1,

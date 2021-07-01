@@ -1,6 +1,6 @@
 module.exports = {
     description: 'Unban a user',
-    textOnly: true,
+    location: 'text',
     permissions: ['BAN_MEMBERS'],
     minArgs: 1,
     maxArgs: 1,

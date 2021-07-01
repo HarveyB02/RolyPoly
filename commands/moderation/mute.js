@@ -1,6 +1,6 @@
 module.exports = {
     description: 'Mute a user',
-    textOnly: true,
+    location: 'text',
     permissions: ['MANAGE_ROLES'],
     minArgs: 1,
     maxArgs: 2,
@@ -32,7 +32,7 @@ module.exports = {
                     break;
                 default: 
                     // Error msg if invalid time unit
-                    var description = `Invalid time unit was provided, please use m, d or w \`\`\`\n${module.exports.dmOnly ? '' : message.guild.data.prefix}mute ${module.exports.arguments.replace(/~.+?(?=( |$))/g, '')}\`\`\`For example:\`\`\`${message.guild.data.prefix}mute @Harvey 30m\`\`\``;
+                    var description = `Invalid time unit was provided, please use m, d or w \`\`\`\n${message.channel.type == 'dm' ? '' : message.guild.data.prefix}mute ${module.exports.arguments.replace(/~.+?(?=( |$))/g, '')}\`\`\`For example:\`\`\`${message.guild.data.prefix}mute @Harvey 30m\`\`\``;
                             
                     client.tools.errorMsg(message, 'Invalid time unit', description);
                     return;
@@ -41,7 +41,7 @@ module.exports = {
             // Checking duration is a number
             if (isNaN( parseInt(duration) )) {
                 // Error msg
-                var description = `Invalid number was provided, please use \`\`\`\n${module.exports.dmOnly ? '' : message.guild.data.prefix}mute ${module.exports.arguments.replace(/~.+?(?=( |$))/g, '')}\`\`\``;
+                var description = `Invalid number was provided, please use \`\`\`\n${message.channel.type == 'dm' ? '' : message.guild.data.prefix}mute ${module.exports.arguments.replace(/~.+?(?=( |$))/g, '')}\`\`\``;
                 client.tools.errorMsg(message, 'Invalid argument type', description);
                 return;
             }

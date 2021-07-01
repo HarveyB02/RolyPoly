@@ -1,10 +1,11 @@
 {
+    "ownerIDs": ["378819717324079104"],
+    "hubID": "860046983498956811",
     "prefix": "*",
     "subjectRoleColour": "#58acf9",
     "mutedRoleColour": "#5d5d5d",
-    "ownerIDs": ["378819717324079104"],
     "successColour": "#57F278",
     "failColour": "#ED4245",
-    "modChannelName": "subject-requests",
+    "modChannelName": "rolypoly-alerts",
     "botChannelName": "bots"
 }

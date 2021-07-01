@@ -3,7 +3,7 @@ const config = require('../../config.json');
 
 module.exports = {
     description:'Leave a subject',
-    textOnly: true,
+    location: 'text',
     minArgs: 1,
     maxArgs: 5,
     arguments: '<subject code> {subject code}',

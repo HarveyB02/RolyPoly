@@ -9,7 +9,7 @@ module.exports = {
     minArgs: 1,
     maxArgs: 1,
     cooldown: 5,
-    textOnly: true,
+    location: 'text',
     execute: async ({ client, message, args }) => {
         // Checking quantity
         if (args[0] > 100 || args[0] <= 0) {

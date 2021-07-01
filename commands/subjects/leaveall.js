@@ -3,7 +3,7 @@ const config = require('../../config.json');
 
 module.exports = {
     description: 'Leave all the subjects you have joined',
-    textOnly: true,
+    location: 'text',
     cooldown: 10,
     execute: async ({ client, message }) => {
         // Get subjects member has joined
