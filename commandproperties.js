@@ -1,5 +1,6 @@
 module.exports = {
     name = '', // String, Overwrite the name of the command (name of file is default)
+    aliases: [''], // Array of strings, alternative command names
     description = '', // String, Write a description, used in help menu
     arguments = '', // String, Expected arguments
     minArgs = 0, // Integer, Minimum number of arguments

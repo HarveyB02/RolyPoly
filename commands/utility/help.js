@@ -67,6 +67,11 @@ module.exports = {
             // Description
             if (command.description) embed.setDescription(command.description);
 
+            // Aliases
+            if (command.aliases) {
+                embed.addField('Aliases', command.aliases.join(', ').charAt(0).toUpperCase() + command.aliases.join(', ').slice(1));
+            }
+
             // Usage
             if (command.arguments) {
                 embed.addField('Usage', `\`\`\`\n${message.channel.type == 'dm' ? '' : message.guild.data.prefix}${command.name} ${command.arguments.replace(/~.+?(?=( |$))/g, '')}\`\`\``);
