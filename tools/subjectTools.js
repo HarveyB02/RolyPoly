@@ -13,7 +13,10 @@ async function updateSubjectOverwrites(channel) {
             channel.client.tools.log(`Allowed @${subjectRole.name} to view #${channel.name}`, channel.guild);
         }
     }
-    else if (channel.type == 'category' && channel.name.toLowerCase().replace(/[0-9]/g, '') != ' level subjects') return;
+    else if (channel.type == 'category') {
+        if (channel.name.toLowerCase().replace(/[0-9]/g, '') != ' level subjects') return;
+        await channel.client.tools.sortCategory(channel);
+    }
 
     // Deny everyone to view subject channel or category
     if (channel.permissionsFor(channel.guild.roles.everyone).toArray().includes('VIEW_CHANNEL')) {

@@ -1,4 +1,5 @@
 const { MessageEmbed } = require("discord.js");
+const sort = require("../commands/utility/sort");
 const config = require('../config.json');
 
 // General tools
@@ -85,4 +86,21 @@ module.exports.fetchModChannel = async (guild) => {
         });
     }
     return modChannel;
+}
+
+module.exports.sortCategory = async (category) => {
+    var channels = [];
+    await Promise.all(category.children.map(async channel => {
+        channels[channel.position] = channel.name;
+    }));
+
+    const sortedChannels = [...channels].sort();
+
+    if (channels.join(' ') != sortedChannels.join(' ')) {
+        this.log(`Sorting #${category.name}`, category.guild);
+        for (var i = 0; i < sortedChannels.length; i ++) {
+            const channel = await category.children.find(c => c.name == sortedChannels[i]);
+            await channel.setPosition(i);
+        }
+    }
 }

@@ -4,7 +4,7 @@ module.exports = {
     location: 'spoke', 
     cooldown: 10, 
     ownerOnly: true, 
-    execute: ({ client, message }) => {
+    execute: async ({ client, message }) => {
         client.emit('semiCheck');
         client.emit('fullCheck');
         

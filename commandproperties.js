@@ -9,7 +9,7 @@ module.exports = {
     cooldown: 0, // Integer, Cooldown in seconds
     permissions: [''], // Array of permission flags
     ownerOnly: false, // Boolean, Owner only command
-    execute: ({ client, message, args }) => {
+    execute: async ({ client, message, args }) => {
         // Code to run
     }
 }
