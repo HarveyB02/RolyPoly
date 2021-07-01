@@ -1,5 +1,5 @@
 module.exports = {
-    description: 'Change where bot messages to server staff are sent, will make channel invisible',
+    description: 'Specify which channel alerts should be sent to. This will make the channel private',
     permissions: ['MANAGE_GUILD'],
     location: 'text',
     minArgs: 1,

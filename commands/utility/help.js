@@ -1,7 +1,7 @@
 const { MessageEmbed } = require("discord.js");
 
 module.exports = {
-    description: 'Why are you asking for help on help?',
+    description: 'But if you know how to see this, you know how to use the help menu.',
     arguments: '[command name]',
     maxArgs: 1,
     cooldown: 5,

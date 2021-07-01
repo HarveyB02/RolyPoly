@@ -1,5 +1,5 @@
 module.exports = {
-    description: 'Mute a user',
+    description: 'Mute a member for a certain amount of time. Mute will not expire if no time is provided',
     location: 'text',
     permissions: ['MANAGE_ROLES'],
     minArgs: 1,

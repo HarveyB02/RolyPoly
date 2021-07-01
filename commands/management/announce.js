@@ -1,5 +1,5 @@
 module.exports = {
-    description: 'Send a message to all staff channels',
+    description: 'Send an announcement to all alert channels on spoke servers',
     location: 'dm',
     ownerOnly: true,
     minArgs: 1,

@@ -2,7 +2,7 @@ const { MessageEmbed } = require("discord.js");
 const config = require('../../config.json');
 
 module.exports = {
-    description:'Leave a subject',
+    description:'Removes a subject role',
     location: 'text',
     minArgs: 1,
     maxArgs: 5,

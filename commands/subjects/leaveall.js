@@ -2,7 +2,7 @@ const { MessageEmbed } = require("discord.js");
 const config = require('../../config.json');
 
 module.exports = {
-    description: 'Leave all the subjects you have joined',
+    description: 'Removes all of your subject roles',
     location: 'text',
     cooldown: 10,
     execute: async ({ client, message }) => {

@@ -2,7 +2,7 @@ const { MessageEmbed } = require('discord.js');
 const config = require('../../config.json');
 
 module.exports = {
-    description: 'Add or remove channels from the allowlist, provide no channel to toggle the allowlist',
+    description: 'Add or remove channels from the allowlist. The allowlist will be toggled if no argument is provided',
     permissions: ['MANAGE_GUILD'],
     textOnly: true,
     minArgs: 0,

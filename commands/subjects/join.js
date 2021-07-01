@@ -3,12 +3,12 @@ const config = require('../../config.json');
 const guild = require("../../database/Schema/guild");
 
 module.exports = {
-    description:'Join a subject to unlock the subject channel and recieve relevant notifications',
+    description:'Assigns you the role for a subject',
     location: 'text',
     minArgs: 1,
     maxArgs: 5,
     arguments: '<subject code> {subject code}',
-    cooldown: 10,
+    cooldown: 5,
     execute: async ({ client, message, args }) => {
         // Create response embed
         const embed = new MessageEmbed()

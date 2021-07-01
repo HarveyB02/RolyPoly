@@ -1,5 +1,5 @@
 module.exports = {
-    description: 'Ban a user',
+    description: 'Ban a member for a certain amount of time. Ban will not expire if no time is provided',
     location: 'text',
     permissions: ['BAN_MEMBERS'],
     minArgs: 1,

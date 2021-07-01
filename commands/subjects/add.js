@@ -2,7 +2,7 @@ const { MessageEmbed } = require("discord.js");
 const config = require('../../config.json');
 
 module.exports = {
-    description: 'Creates a new subject channel and matching role',
+    description: 'Adds a new subject code to the server. Up to 10 subjects can be added at once',
     permissions: ['MANAGE_CHANNELS', 'MANAGE_ROLES'],
     arguments: '<subject code> {subject code}',
     minArgs: 1,

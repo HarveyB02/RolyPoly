@@ -2,7 +2,7 @@ const { MessageEmbed } = require("discord.js");
 const config = require('../../config.json');
 
 module.exports = {
-    description: 'Deletes a subject channel and it\'s matching role',
+    description: 'Removes a subject code from the server (irreversible)',
     permissions: ['MANAGE_CHANNELS', 'MANAGE_ROLES'],
     arguments: '<subject code> {subject code}',
     minArgs: 1,
