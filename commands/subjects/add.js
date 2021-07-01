@@ -8,7 +8,7 @@ module.exports = {
     minArgs: 1,
     maxArgs: 10,
     cooldown: 5,
-    location: 'text',
+    location: 'spoke',
     
     execute: async ({ client, message, args }) => {
         // Create response embed

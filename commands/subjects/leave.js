@@ -3,7 +3,7 @@ const config = require('../../config.json');
 
 module.exports = {
     description:'Removes a subject role',
-    location: 'text',
+    location: 'spoke',
     minArgs: 1,
     maxArgs: 5,
     arguments: '<subject code> {subject code}',

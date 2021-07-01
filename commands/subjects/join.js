@@ -4,7 +4,7 @@ const guild = require("../../database/Schema/guild");
 
 module.exports = {
     description:'Assigns you the role for a subject',
-    location: 'text',
+    location: 'spoke',
     minArgs: 1,
     maxArgs: 5,
     arguments: '<subject code> {subject code}',

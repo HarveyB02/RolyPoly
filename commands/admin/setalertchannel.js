@@ -1,7 +1,7 @@
 module.exports = {
     description: 'Specify which channel alerts should be sent to. This will make the channel private',
     permissions: ['MANAGE_GUILD'],
-    location: 'text',
+    location: 'spoke',
     minArgs: 1,
     maxArgs: 1,
     arguments: '<channel>~channel',

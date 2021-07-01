@@ -1,5 +1,6 @@
 // Subject tools
 async function updateSubjectOverwrites(channel) {
+    if (channel.type == 'voice') return;
     if (channel.type == 'text') {
         // Allow subject role to view subject channel
         if (!channel.name.match(channel.client.subjectRegex)) return;

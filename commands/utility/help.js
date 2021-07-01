@@ -40,8 +40,10 @@ module.exports = {
                             break;
                     }
                     // Permissions
-                    if (command.permissions) {
-                        if (!message.member.hasPermission(command.permissions)) return;
+                    if (message.channel.type != 'dm') {
+                        if (command.permissions) {
+                            if (!message.member.hasPermission(command.permissions)) return;
+                        }
                     }
                     return command;
                 });

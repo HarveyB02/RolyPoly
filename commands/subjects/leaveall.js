@@ -3,7 +3,7 @@ const config = require('../../config.json');
 
 module.exports = {
     description: 'Removes all of your subject roles',
-    location: 'text',
+    location: 'spoke',
     cooldown: 10,
     execute: async ({ client, message }) => {
         // Get subjects member has joined
