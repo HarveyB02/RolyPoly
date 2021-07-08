@@ -7,7 +7,6 @@ module.exports = {
     location: 'text',
     textOnly: true,
     minArgs: 0,
-    maxArgs: 1,
     arguments: '[channel to add/remove]~channel',
     cooldown: 5,
     execute: async ({ client, message, args }) => {

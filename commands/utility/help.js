@@ -3,10 +3,12 @@ const { MessageEmbed } = require("discord.js");
 module.exports = {
     description: 'But if you know how to see this, you know how to use the help menu.',
     arguments: '[command name]',
-    maxArgs: 1,
     cooldown: 5,
     execute: async ({ client, message, args }) => {
         if (!args) args = []
+        if (!message.guild.data) {
+            message.guild.data = await client.database.fetchGuild(message.guild);
+        }
         if (!args.length) {
             const embed = new MessageEmbed()
                 .setTitle(`${client.user.username} Help Menu`)

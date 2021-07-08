@@ -3,7 +3,6 @@ module.exports = {
     location: 'text',
     permissions: ['BAN_MEMBERS'],
     minArgs: 1,
-    maxArgs: 2,
     arguments: '<user>~member [time (m, d, w)]',
     cooldown: 5,
     execute: async ({ client, message, args }) => {

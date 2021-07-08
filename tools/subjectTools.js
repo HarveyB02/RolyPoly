@@ -92,7 +92,7 @@ module.exports.createSubject = async (guild, subjectCode, member) => {
 }
 
 async function fetchBypassRole(guild) {
-    var bypassRole = await guild.roles.cache.find(role => role.name == '👁');
+    var bypassRole = await guild.roles.cache.find(role => role.name.toLowerCase() == 'view channels');
 
     if (!bypassRole) {
         if (!guild.data) {
@@ -101,8 +101,7 @@ async function fetchBypassRole(guild) {
 
         bypassRole = await guild.roles.create({
             data: {
-                name: '👁',
-                color: guild.data.roleColour
+                name: 'View channels'
             }
         });
         guild.client.tools.log(`Created @${bypassRole.name}`, guild);

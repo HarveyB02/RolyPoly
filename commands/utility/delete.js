@@ -1,5 +1,4 @@
 const { MessageEmbed } = require("discord.js");
-const config = require('../../config.json');
 
 module.exports = {
     aliases: ['del', 'purge', 'prune'],
@@ -7,7 +6,6 @@ module.exports = {
     permissions: ['MANAGE_MESSAGES'],
     arguments: '<quantity (1-100)>~int',
     minArgs: 1,
-    maxArgs: 1,
     cooldown: 5,
     location: 'text',
     execute: async ({ client, message, args }) => {

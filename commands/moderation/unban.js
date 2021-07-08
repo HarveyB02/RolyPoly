@@ -3,7 +3,6 @@ module.exports = {
     location: 'text',
     permissions: ['BAN_MEMBERS'],
     minArgs: 1,
-    maxArgs: 1,
     arguments: '<user tag or ID>',
     cooldown: 5,
     execute: async ({ client, message, args }) => {

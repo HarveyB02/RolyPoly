@@ -32,7 +32,7 @@ module.exports.execute = async (message, client) => {
     }
 
     // Help via mention
-    if (message.content == '<@!847843520777682965>') {
+    if (message.content == `<@!${client.user.id}>`) {
         let help = await client.commands.find(c => c.name == 'help');
         help.execute({
             client: client,

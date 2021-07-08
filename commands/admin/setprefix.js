@@ -3,7 +3,6 @@ module.exports = {
     permissions: ['MANAGE_GUILD'],
     location: 'text',
     minArgs: 1,
-    maxArgs: 1,
     arguments: '<prefix>',
     cooldown: 5,
     execute: async ({ client, message, args }) => {

@@ -34,7 +34,7 @@ module.exports.errorMsg = (message, title, description) => {
     message.channel.send(embed)
         // Deleting response after 5 seconds
         .then(m => {
-            m.delete({ timeout: 5000 })
+            m.delete({ timeout: 10000 })
             .catch(error => console.log(error))
         });
 }

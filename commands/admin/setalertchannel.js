@@ -3,7 +3,6 @@ module.exports = {
     permissions: ['MANAGE_GUILD'],
     location: 'spoke',
     minArgs: 1,
-    maxArgs: 1,
     arguments: '<channel>~channel',
     cooldown: 5,
     execute: async ({ client, message, args }) => {
