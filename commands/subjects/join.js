@@ -15,7 +15,7 @@ module.exports = {
             .setColor(config.successColour);
 
         // Loop through subject codes
-        for (var i = 0; i < args.length; i ++) {
+        for (let i = 0; i < args.length; i ++) {
             let subjectCode = args[i].toLowerCase();
 
             // Check if code is valid

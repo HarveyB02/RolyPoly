@@ -7,14 +7,14 @@ module.exports = {
     cooldown: 5,
     execute: async ({ client, message, args }) => {
         // Check if already muted
-        var isMuted = await client.database.isMuted(args[0]);
+        let isMuted = await client.database.isMuted(args[0]);
         if (isMuted) {
             client.tools.errorMsg(message, 'User already muted', `<@!${args[0].id}> is already muted, please unmute them first`)
             return;
         }
 
         if (args.length > 1) { // Timed mute (uses database)
-            var expiryDate;
+            let expiryDate;
             const unit = args[1].substring(args[1].length - 1);
             const duration = args[1].substring(0, args[1].length - 1);
 
@@ -31,7 +31,7 @@ module.exports = {
                     break;
                 default: 
                     // Error msg if invalid time unit
-                    var description = `Invalid time unit was provided, please use m, d or w \`\`\`\n${message.channel.type == 'dm' ? '' : message.guild.data.prefix}mute ${module.exports.arguments.replace(/~.+?(?=( |$))/g, '')}\`\`\`For example:\`\`\`${message.guild.data.prefix}mute @Harvey 30m\`\`\``;
+                    let description = `Invalid time unit was provided, please use m, d or w \`\`\`\n${message.channel.type == 'dm' ? '' : message.guild.data.prefix}mute ${module.exports.arguments.replace(/~.+?(?=( |$))/g, '')}\`\`\`For example:\`\`\`${message.guild.data.prefix}mute @Harvey 30m\`\`\``;
                             
                     client.tools.errorMsg(message, 'Invalid time unit', description);
                     return;
@@ -40,7 +40,7 @@ module.exports = {
             // Checking duration is a number
             if (isNaN( parseInt(duration) )) {
                 // Error msg
-                var description = `Invalid number was provided, please use \`\`\`\n${message.channel.type == 'dm' ? '' : message.guild.data.prefix}mute ${module.exports.arguments.replace(/~.+?(?=( |$))/g, '')}\`\`\``;
+                let description = `Invalid number was provided, please use \`\`\`\n${message.channel.type == 'dm' ? '' : message.guild.data.prefix}mute ${module.exports.arguments.replace(/~.+?(?=( |$))/g, '')}\`\`\``;
                 client.tools.errorMsg(message, 'Invalid argument type', description);
                 return;
             }
@@ -50,7 +50,7 @@ module.exports = {
         }
 
         // Muting user
-        var mutedRole = await client.muteTools.fetchMutedRole(message.guild);
+        let mutedRole = await client.muteTools.fetchMutedRole(message.guild);
         await args[0].roles.add(mutedRole);
 
         // Confirmation

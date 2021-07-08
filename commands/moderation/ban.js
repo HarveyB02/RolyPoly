@@ -15,7 +15,7 @@ module.exports = {
         client.database.removeBan(args[0]);
 
         if (args.length > 1) { // Timed ban (uses database)
-            var expiryDate;
+            let expiryDate;
             const unit = args[1].substring(args[1].length - 1);
             const duration = args[1].substring(0, args[1].length - 1);
 
@@ -32,7 +32,7 @@ module.exports = {
                     break;
                 default: 
                     // Error msg if invalid time unit
-                    var description = `Invalid time unit was provided, please use m, d or w \`\`\`\n${message.channel.type == 'dm' ? '' : message.guild.data.prefix}${module.exports.name} ${module.exports.arguments.replace(/~.+?(?=( |$))/g, '')}\`\`\`For example:\`\`\`${message.guild.data.prefix}ban @Harvey 30m\`\`\``;
+                    let description = `Invalid time unit was provided, please use m, d or w \`\`\`\n${message.channel.type == 'dm' ? '' : message.guild.data.prefix}${module.exports.name} ${module.exports.arguments.replace(/~.+?(?=( |$))/g, '')}\`\`\`For example:\`\`\`${message.guild.data.prefix}ban @Harvey 30m\`\`\``;
                             
                     client.tools.errorMsg(message, 'Invalid time unit', description);
                     return;
@@ -40,7 +40,7 @@ module.exports = {
 
             // Checking duration is a number
             if (isNaN( parseInt(duration) )) {
-                var description = `Invalid number was provided, please use \`\`\`\n${message.channel.type == 'dm' ? '' : message.guild.data.prefix}${module.exports.name} ${module.exports.arguments.replace(/~.+?(?=( |$))/g, '')}\`\`\``;
+                let description = `Invalid number was provided, please use \`\`\`\n${message.channel.type == 'dm' ? '' : message.guild.data.prefix}${module.exports.name} ${module.exports.arguments.replace(/~.+?(?=( |$))/g, '')}\`\`\``;
                 return;
             }
 

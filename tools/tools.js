@@ -3,8 +3,8 @@ const config = require('../config.json');
 
 // General tools
 module.exports.log = (content, guild) => {
-    var time = format12Hour(new Date);
-    var location; // Guild name or client
+    let time = format12Hour(new Date);
+    let location; // Guild name or client
     if (guild) {
         location = guild.name;
     } else {
@@ -15,9 +15,9 @@ module.exports.log = (content, guild) => {
 
 module.exports.format12Hour = format12Hour;
 function format12Hour (date) {
-    var hours = date.getHours() % 12; // 12 hour time
+    let hours = date.getHours() % 12; // 12 hour time
     hours = hours ? hours : 12; // 0 -> 12
-    var minutes = date.getMinutes();
+    let minutes = date.getMinutes();
     minutes = minutes < 10 ?  '0' + minutes : minutes; // 1 -> 01 
     return `${hours}:${minutes}${hours >= 12 ? 'am' : 'pm'}`;
 }
@@ -42,7 +42,7 @@ module.exports.errorMsg = (message, title, description) => {
 module.exports.sendWebhook = async (channel, username, content, avatarURL) => {
     const webhooks = await channel.fetchWebhooks();
 
-    var webhook = await webhooks.find(w => w.name == channel.client.user.username);
+    let webhook = await webhooks.find(w => w.name == channel.client.user.username);
     if (!webhook) {
         webhook = await channel.createWebhook(channel.client.user.username, channel.client.user.displayAvatarURL());
     }
@@ -54,9 +54,9 @@ module.exports.sendWebhook = async (channel, username, content, avatarURL) => {
 
 // Channel tools
 module.exports.fetchModChannel = async (guild) => {
-    var modChannel = await guild.channels.cache.find(channel => channel.name.toLowerCase() == guild.data.modChannelName && channel.type == 'text');
+    let modChannel = await guild.channels.cache.find(channel => channel.name.toLowerCase() == guild.data.modChannelName && channel.type == 'text');
     if (!modChannel) {
-        var category = await guild.channels.cache.find(channel => channel.name.toLowerCase().startsWith('mod') || channel.name.toLowerCase().startsWith('staff') && channel.type == 'category');
+        let category = await guild.channels.cache.find(channel => channel.name.toLowerCase().startsWith('mod') || channel.name.toLowerCase().startsWith('staff') && channel.type == 'category');
         if (!category) {
             modChannel = await guild.channels.create(guild.data.modChannelName, {
                 type: 'text',
@@ -75,7 +75,7 @@ module.exports.fetchModChannel = async (guild) => {
 }
 
 module.exports.sortCategory = async (category) => {
-    var channels = [];
+    let channels = [];
     await Promise.all(category.children.map(async channel => {
         channels[channel.position] = channel.name;
     }));
@@ -84,7 +84,7 @@ module.exports.sortCategory = async (category) => {
 
     if (channels.join(' ') != sortedChannels.join(' ')) {
         this.log(`Sorting #${category.name}`, category.guild);
-        for (var i = 0; i < sortedChannels.length; i ++) {
+        for (let i = 0; i < sortedChannels.length; i ++) {
             const channel = await category.children.find(c => c.name == sortedChannels[i]);
             await channel.setPosition(i);
         }

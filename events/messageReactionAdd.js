@@ -17,8 +17,8 @@ module.exports = {
         if (reaction.count != 2) return;
 
         // Parse info from request msg
-        var subjectCode = reaction.message.embeds[0].fields[1].value.toLowerCase();
-        var memberID = reaction.message.embeds[0].fields[0].value;
+        let subjectCode = reaction.message.embeds[0].fields[1].value.toLowerCase();
+        let memberID = reaction.message.embeds[0].fields[0].value;
         memberID = memberID.substring(2, memberID.length - 1);
 
         const guild = await reaction.message.guild;

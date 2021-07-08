@@ -87,7 +87,7 @@ module.exports = {
 
             // Permissions
             if (command.permissions) {
-                var permList = ''
+                let permList = ''
                 for (const perm of command.permissions) {
                     permList += perm.toLowerCase().replace(/_/g, ' ') + ', ';
                 }
@@ -102,7 +102,7 @@ module.exports = {
             }
 
             // Restrictions
-            var restrictions = [];
+            let restrictions = [];
 
             switch (command.location) {
                 case 'dm':

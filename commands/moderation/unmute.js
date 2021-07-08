@@ -6,9 +6,9 @@ module.exports = {
     arguments: '<user>~member',
     cooldown: 5,
     execute: async ({ client, message, args }) => {
-        var isMuted = await client.database.isMuted(args[0]);
+        let isMuted = await client.database.isMuted(args[0]);
         if (isMuted) {
-            var mutedRole = await client.muteTools.fetchMutedRole(message.guild);
+            let mutedRole = await client.muteTools.fetchMutedRole(message.guild);
             client.database.removeMute(args[0]);
             args[0].roles.remove(mutedRole);
             client.tools.log(`Unmuted @${message.author.tag}`, message.guild);

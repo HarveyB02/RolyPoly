@@ -21,7 +21,7 @@ module.exports = {
             // Checking if already in allowlist
             if (message.guild.data.botChannelNames.includes(args[0].name)) {
                 // Removing from database
-                var index = message.guild.data.botChannelNames.indexOf(args[0]);
+                let index = message.guild.data.botChannelNames.indexOf(args[0]);
                 message.guild.data.botChannelNames.splice(index, 1);
                 message.guild.data.markModified('botChannelNames'); // Need to mark as modified, as arrays are weird with mongoDB
                 await message.guild.data.save();

@@ -2,23 +2,23 @@ module.exports = {
     execute: async (client) => {
         // Looping through all guilds
         const guilds = await client.guilds.cache.map(g => g);
-        for (var i = 0; i < guilds.length; i ++) {
+        for (let i = 0; i < guilds.length; i ++) {
             const guild = guilds[i];
             const mutedRole = await client.muteTools.fetchMutedRole(guild);
 
             if (guild.id == client.config.hubID) {
                 // Looping through all channels
-                var channels = await guild.channels.cache.map(c => c);
-                for (var j = 0; j < channels.length; j ++) {
+                let channels = await guild.channels.cache.map(c => c);
+                for (let j = 0; j < channels.length; j ++) {
                     const channel = channels[j];
                     await client.muteTools.updateMuteOverwrites(channel, mutedRole);
                 }
             } else {
-                var cSubjects = []; // Array of subjects from channel names
+                let cSubjects = []; // Array of subjects from channel names
                 
                 // Looping through all channels
-                var channels = await guild.channels.cache.map(c => c);
-                for (var j = 0; j < channels.length; j ++) {
+                let channels = await guild.channels.cache.map(c => c);
+                for (let j = 0; j < channels.length; j ++) {
                     const channel = channels[j];
                     
                     await client.subjectTools.updateSubjectOverwrites(channel);
@@ -29,7 +29,7 @@ module.exports = {
                     }
                 }
 
-                var rSubjects = []; // Array of subjects from role names
+                let rSubjects = []; // Array of subjects from role names
                 await Promise.all(guild.roles.cache.map(async role => {
                     if (role.name.toLowerCase().match(client.subjectRegex)) {
                         rSubjects[rSubjects.length] = role.name;
@@ -37,7 +37,7 @@ module.exports = {
                 }));
 
                 // Fixing half subjects
-                var missingChannels = rSubjects.filter(e => !cSubjects.includes(e));
+                let missingChannels = rSubjects.filter(e => !cSubjects.includes(e));
                 await Promise.all(missingChannels.map(async subjectCode => {
                     client.subjectTools.createSubject(guild, subjectCode);
                 }));

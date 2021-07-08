@@ -16,7 +16,7 @@ module.exports = {
             .setColor(config.successColour);
 
         // Loop through subject codes
-        for (var i = 0; i < args.length; i ++) {
+        for (let i = 0; i < args.length; i ++) {
             let subjectCode = args[i].toLowerCase();
 
             // Check if code is valid
@@ -27,8 +27,8 @@ module.exports = {
             }
 
             // Check if subject already exists
-            var subjectRole = await message.guild.roles.cache.find(role => role.name.toLowerCase() == subjectCode);
-            var subjectChannel = await message.guild.channels.cache.find(channel => channel.name.toLowerCase() == subjectCode && channel.type == 'text');
+            let subjectRole = await message.guild.roles.cache.find(role => role.name.toLowerCase() == subjectCode);
+            let subjectChannel = await message.guild.channels.cache.find(channel => channel.name.toLowerCase() == subjectCode && channel.type == 'text');
             if (subjectRole && subjectChannel) {
                 embed.addField(subjectCode.toUpperCase(), 'Subject already exists');
                 embed.setColor(config.failColour);

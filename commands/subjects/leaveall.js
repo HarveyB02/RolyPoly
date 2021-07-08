@@ -22,7 +22,7 @@ module.exports = {
             embed.setDescription('You do not have any subject roles');
             embed.setColor(config.failColour);
         } else {
-            var subjectNames = '';
+            let subjectNames = '';
 
             // Leave all subject roles
             subjectRoles.forEach(role => {

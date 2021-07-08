@@ -16,7 +16,7 @@ module.exports = {
             .setColor(config.successColour);
         
         // Loop through subject codes
-        for (var i = 0; i < args.length; i ++) {
+        for (let i = 0; i < args.length; i ++) {
             let subjectCode = args[i].toLowerCase();
 
             // Check if code is valid
@@ -27,8 +27,8 @@ module.exports = {
             }
 
             // Removing subject channel / role
-            var subjectRole = await message.guild.roles.cache.find(role => role.name.toLowerCase() == subjectCode);
-            var subjectChannel = await message.guild.channels.cache.find(channel => channel.name.toLowerCase() == subjectCode);
+            let subjectRole = await message.guild.roles.cache.find(role => role.name.toLowerCase() == subjectCode);
+            let subjectChannel = await message.guild.channels.cache.find(channel => channel.name.toLowerCase() == subjectCode);
             if (subjectRole) {
                 subjectRole.delete();
                 client.tools.log(`Deleted @${subjectRole.name}`, message.guild);

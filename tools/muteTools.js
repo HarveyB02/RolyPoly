@@ -17,7 +17,7 @@ async function fetchMutedRole(guild) {
 module.exports.fetchMutedRole = fetchMutedRole;
 
 module.exports.updateMuteOverwrites = async (channel, mutedRole) => {
-    var perms = await channel.permissionOverwrites.find(r => r.id == mutedRole.id)
+    let perms = await channel.permissionOverwrites.find(r => r.id == mutedRole.id)
     
     // Update voice and category channel perms
     if (channel.type == 'voice' || channel.type == 'category') {

@@ -37,7 +37,7 @@ module.exports.removeMute = async (member) => {
 
 module.exports.isMuted = async (member) => {
     // Check if user has muted role
-    var mutedRole = await member.roles.cache.find(r => r.name.toLowerCase() == 'muted');
+    let mutedRole = await member.roles.cache.find(r => r.name.toLowerCase() == 'muted');
     if (mutedRole) {
         return true;
     }
@@ -59,11 +59,11 @@ module.exports.checkMutes = async (client) => {
             if (mute.expires < Date.now()) {
                 mute.remove();
 
-                var guild = await client.guilds.cache.find(g => g.id == mute.guildID);
+                let guild = await client.guilds.cache.find(g => g.id == mute.guildID);
                 if (!guild) return;
-                var member = await guild.members.cache.find(m => m.id == mute.userID);
+                let member = await guild.members.cache.find(m => m.id == mute.userID);
                 if (!member) return;
-                var mutedRole = await member.roles.cache.find(r => r.name.toLowerCase() == 'muted');
+                let mutedRole = await member.roles.cache.find(r => r.name.toLowerCase() == 'muted');
                 if (!mutedRole) return;
 
                 member.roles.remove(mutedRole);
@@ -98,7 +98,7 @@ module.exports.checkBans = async (client) => {
             if (ban.expires < Date.now()) {
                 ban.remove();
 
-                var guild = await client.guilds.cache.find(g => g.id == ban.guildID);
+                let guild = await client.guilds.cache.find(g => g.id == ban.guildID);
                 if (!guild) return;
                 
                 const bans = await guild.fetchBans();

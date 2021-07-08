@@ -5,7 +5,7 @@ async function updateSubjectOverwrites(channel) {
         // Allow subject role to view subject channel
         if (!channel.name.match(channel.client.subjectRegex)) return;
 
-        var subjectRole = await fetchSubjectRole(channel.guild, channel.name);
+        let subjectRole = await fetchSubjectRole(channel.guild, channel.name);
         if (!channel.permissionsFor(subjectRole).toArray().includes('VIEW_CHANNEL')) {
             channel.updateOverwrite(subjectRole, {
                 'VIEW_CHANNEL': true
@@ -26,7 +26,7 @@ async function updateSubjectOverwrites(channel) {
         channel.client.tools.log(`Denied @everyone to view #${channel.name}`, channel.guild);
     }
 
-    var bypassRole = await fetchBypassRole(channel.guild);
+    let bypassRole = await fetchBypassRole(channel.guild);
     if (!channel.permissionsFor(bypassRole).toArray().includes('VIEW_CHANNEL')) {
         await channel.updateOverwrite(bypassRole, {
             'VIEW_CHANNEL': true
@@ -59,15 +59,15 @@ module.exports.fetchSubjectRole = fetchSubjectRole;
 
 module.exports.createSubject = async (guild, subjectCode, member) => {
     // Create role
-    var subjectRole = await fetchSubjectRole(guild, subjectCode);
+    let subjectRole = await fetchSubjectRole(guild, subjectCode);
 
     // Create channel
-    var subjectChannel = await guild.channels.cache.find(channel => channel.name.toLowerCase() == subjectCode.toLowerCase());
+    let subjectChannel = await guild.channels.cache.find(channel => channel.name.toLowerCase() == subjectCode.toLowerCase());
     if (!subjectChannel) {
-        var subjectLvl = subjectCode.match(/\d/) + '00 level subjects'
+        let subjectLvl = subjectCode.match(/\d/) + '00 level subjects'
 
         // Create category
-        var parent = await guild.channels.cache.find(channel => channel.name.toLowerCase() == subjectLvl && channel.type == 'category');
+        let parent = await guild.channels.cache.find(channel => channel.name.toLowerCase() == subjectLvl && channel.type == 'category');
         if (!parent) {
             parent = await guild.channels.create(subjectLvl, {
                 type: 'category'
@@ -92,7 +92,7 @@ module.exports.createSubject = async (guild, subjectCode, member) => {
 }
 
 async function fetchBypassRole(guild) {
-    var bypassRole = await guild.roles.cache.find(role => role.name.toLowerCase() == 'view channels');
+    let bypassRole = await guild.roles.cache.find(role => role.name.toLowerCase() == 'view channels');
 
     if (!bypassRole) {
         if (!guild.data) {
