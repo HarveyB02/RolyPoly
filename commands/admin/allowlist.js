@@ -4,6 +4,7 @@ const config = require('../../config.json');
 module.exports = {
     description: 'Add or remove channels from the allowlist. The allowlist will be toggled if no argument is provided',
     permissions: ['MANAGE_GUILD'],
+    location: 'text',
     textOnly: true,
     minArgs: 0,
     maxArgs: 1,

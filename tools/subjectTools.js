@@ -25,22 +25,29 @@ async function updateSubjectOverwrites(channel) {
         });
         channel.client.tools.log(`Denied @everyone to view #${channel.name}`, channel.guild);
     }
+
+    var bypassRole = await fetchBypassRole(channel.guild);
+    if (!channel.permissionsFor(bypassRole).toArray().includes('VIEW_CHANNEL')) {
+        await channel.updateOverwrite(bypassRole, {
+            'VIEW_CHANNEL': true
+        });
+        channel.client.tools.log(`Allowed @${bypassRole.name} to view #${channel.name}`, channel.guild);
+    }
 }
 module.exports.updateSubjectOverwrites = updateSubjectOverwrites;
 
 async function fetchSubjectRole(guild, subjectCode) {
-    var subjectRole = await guild.roles.cache.find(role => role.name.toLowerCase() == subjectCode.toLowerCase());
+    let subjectRole = await guild.roles.cache.find(role => role.name.toLowerCase() == subjectCode.toLowerCase());
 
     if (!subjectRole) {
-        if (!guild.roleColour) {
-            var guildData = await guild.client.database.fetchGuild(guild);
-            guild.roleColour = guildData.roleColour;
+        if (!guild.data) {
+            guild.data = await guild.client.database.fetchGuild(guild);
         }
 
         subjectRole = await guild.roles.create({
             data: {
                 name: subjectCode.toUpperCase(),
-                color: guild.roleColour
+                color: guild.data.roleColour
             }
         });
         guild.client.tools.log(`Created @${subjectRole.name}`, guild);
@@ -83,3 +90,24 @@ module.exports.createSubject = async (guild, subjectCode, member) => {
         member.roles.add(subjectRole);
     }
 }
+
+async function fetchBypassRole(guild) {
+    var bypassRole = await guild.roles.cache.find(role => role.name == '👁');
+
+    if (!bypassRole) {
+        if (!guild.data) {
+            guild.data = await guild.client.database.fetchGuild(guild);
+        }
+
+        bypassRole = await guild.roles.create({
+            data: {
+                name: '👁',
+                color: guild.data.roleColour
+            }
+        });
+        guild.client.tools.log(`Created @${bypassRole.name}`, guild);
+    }
+
+    return bypassRole;
+}
+module.exports.fetchBypassRole = fetchBypassRole;

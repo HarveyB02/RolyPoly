@@ -1,5 +1,4 @@
 const { MessageEmbed } = require("discord.js");
-const sort = require("../commands/utility/sort");
 const config = require('../config.json');
 
 // General tools
@@ -40,30 +39,17 @@ module.exports.errorMsg = (message, title, description) => {
         });
 }
 
-module.exports.sendWebhook = (channel, username, content, avatarURL) => {
-    channel.fetchWebhooks()
-        .then(webhook => {
-            let foundHook = webhook.find(w => w.name == channel.client.user.username);
-            // If channel has webhook
-            if (!foundHook) {
-                // Create webhook
-                channel.createWebhook(channel.client.user.username, channel.client.user.displayAvatarURL())
-                    .then(webhook => {
-                        webhook.send('', {
-                            'username': username,
-                            'avatarURL': avatarURL,
-                            'content': content
-                        })
-                            .catch(error => console.log(error));
-                    })
-            } else {
-                foundHook.send(content, {
-                    'username': username,
-                    'avatarURL': avatarURL
-                })
-                    .catch(error => console.log(error));
-            }
-        })
+module.exports.sendWebhook = async (channel, username, content, avatarURL) => {
+    const webhooks = await channel.fetchWebhooks();
+
+    var webhook = await webhooks.find(w => w.name == channel.client.user.username);
+    if (!webhook) {
+        webhook = await channel.createWebhook(channel.client.user.username, channel.client.user.displayAvatarURL());
+    }
+    webhook.send(content, {
+        'username': username,
+        'avatarURL': avatarURL
+    }).catch(error => console.log(error));
 }
 
 // Channel tools

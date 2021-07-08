@@ -1,6 +1,7 @@
 module.exports = {
     once: true,
     execute: (client) => {
+        // Presence
         client.user.setPresence({
             status: 'online',
             activity: {

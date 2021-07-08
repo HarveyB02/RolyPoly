@@ -2,7 +2,7 @@ const config = require('../config');
 
 // Mute tools
 async function fetchMutedRole(guild) {
-    var mutedRole = await guild.roles.cache.find(r => r.name.toLowerCase() == 'muted');
+    let mutedRole = await guild.roles.cache.find(r => r.name.toLowerCase() == 'muted');
     if (!mutedRole) {
         mutedRole = await guild.roles.create({
             data: {
