@@ -1,4 +1,4 @@
-const guildSchema = require('./Schema/guild.js');
+const guildSchema = require('./schema/guild.js');
 const muteSchema = require('./schema/mute.js');
 const banSchema = require('./schema/ban.js');
 const log = require('../tools/tools.js').log;
