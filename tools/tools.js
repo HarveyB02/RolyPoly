@@ -55,6 +55,9 @@ module.exports.sendWebhook = async (channel, username, content, avatarURL) => {
 // Channel tools
 module.exports.fetchModChannel = async (guild) => {
     let modChannel = await guild.channels.cache.find(channel => channel.name.toLowerCase() == guild.data.modChannelName && channel.type == 'text');
+    if (!guild.data) {
+        guild.data = await client.database.fetchGuild(message.guild);
+    }
     if (!modChannel) {
         modChannel = await guild.channels.create(guild.data.modChannelName, {
             type: 'text',
