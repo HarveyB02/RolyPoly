@@ -1,6 +1,5 @@
 const { MessageEmbed } = require("discord.js");
 const config = require('../../config.json');
-const guild = require("../../database/Schema/guild");
 
 module.exports = {
     description:'Assigns you the role for a subject',
