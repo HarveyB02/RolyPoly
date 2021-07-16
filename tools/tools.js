@@ -56,17 +56,9 @@ module.exports.sendWebhook = async (channel, username, content, avatarURL) => {
 module.exports.fetchModChannel = async (guild) => {
     let modChannel = await guild.channels.cache.find(channel => channel.name.toLowerCase() == guild.data.modChannelName && channel.type == 'text');
     if (!modChannel) {
-        let category = await guild.channels.cache.find(channel => channel.name.toLowerCase().startsWith('mod') || channel.name.toLowerCase().startsWith('staff') && channel.type == 'category');
-        if (!category) {
-            modChannel = await guild.channels.create(guild.data.modChannelName, {
-                type: 'text',
-            });
-        } else {
-            modChannel = await guild.channels.create(guild.data.modChannelName, {
-                type: 'text',
-                parent: category
-            });
-        }
+        modChannel = await guild.channels.create(guild.data.modChannelName, {
+            type: 'text',
+        });
         await modChannel.updateOverwrite(guild.roles.everyone, {
             'VIEW_CHANNEL': false
         });
