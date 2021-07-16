@@ -4,6 +4,7 @@ module.exports = {
         const guilds = await client.guilds.cache.map(g => g);
         for (let i = 0; i < guilds.length; i ++) {
             const guild = guilds[i];
+            await guild.roles.fetch();
             const mutedRole = await client.muteTools.fetchMutedRole(guild);
 
             if (guild.id == client.config.hubID) {
