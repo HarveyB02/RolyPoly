@@ -3,6 +3,7 @@ const { MessageEmbed } = require("discord.js");
 module.exports = {
     description: 'But if you know how to see this, you know how to use the help menu.',
     arguments: '[command name]',
+    location: 'text',
     cooldown: 5,
     execute: async ({ client, message, args }) => {
         if (!args) args = []
