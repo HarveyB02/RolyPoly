@@ -33,6 +33,9 @@ module.exports = {
                 let rSubjects = []; // Array of subjects from role names
                 await Promise.all(guild.roles.cache.map(async role => {
                     if (role.name.toLowerCase().match(client.subjectRegex)) {
+                        if (role.name.toUpperCase() != role.name) {
+                            role.setName(role.name.toUpperCase());
+                        }
                         rSubjects[rSubjects.length] = role.name.toLowerCase();
                     }
                 }));
