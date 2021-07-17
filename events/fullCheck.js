@@ -35,6 +35,7 @@ module.exports = {
                     if (role.name.toLowerCase().match(client.subjectRegex)) {
                         if (role.name.toUpperCase() != role.name) {
                             role.setName(role.name.toUpperCase());
+                            client.tools.log(`Made @${role.name} uppercase`, guild);
                         }
                         rSubjects[rSubjects.length] = role.name.toLowerCase();
                     }
