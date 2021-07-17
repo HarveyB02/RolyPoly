@@ -26,14 +26,14 @@ module.exports = {
                     await client.muteTools.updateMuteOverwrites(channel, mutedRole);
 
                     if (channel.name.match(client.subjectRegex)) {
-                        cSubjects[cSubjects.length] = channel.name;
+                        cSubjects[cSubjects.length] = channel.name.toLowerCase();
                     }
                 }
 
                 let rSubjects = []; // Array of subjects from role names
                 await Promise.all(guild.roles.cache.map(async role => {
                     if (role.name.toLowerCase().match(client.subjectRegex)) {
-                        rSubjects[rSubjects.length] = role.name;
+                        rSubjects[rSubjects.length] = role.name.toLowerCase();
                     }
                 }));
 
