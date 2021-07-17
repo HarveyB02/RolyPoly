@@ -15,7 +15,7 @@ module.exports = {
 
         // Loop through subject codes
         for (let i = 0; i < args.length; i ++) {
-            subjectCode = args[i].toLowerCase();
+            subjectCode = args[i].toLowerCase().replace(',', '');
 
             // Check if code is valid
             if (!subjectCode.match(client.subjectRegex)) {
