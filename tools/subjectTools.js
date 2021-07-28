@@ -1,4 +1,3 @@
-// Subject tools
 async function updateSubjectOverwrites(channel) {
     if (channel.type == 'voice') return;
     if (channel.type == 'text') {
@@ -6,7 +5,9 @@ async function updateSubjectOverwrites(channel) {
         if (!channel.name.match(channel.client.subjectRegex)) return;
 
         let subjectRole = await fetchSubjectRole(channel.guild, channel.name);
-        if (!channel.permissionsFor(subjectRole).toArray().includes('VIEW_CHANNEL')) {
+        let overwrites = channel.permissionOverwrites.find(r => r.id == subjectRole.id);
+        
+        if (!(overwrites ? overwrites.allow.has('VIEW_CHANNEL') : false)) {
             channel.updateOverwrite(subjectRole, {
                 'VIEW_CHANNEL': true
             });
@@ -18,20 +19,21 @@ async function updateSubjectOverwrites(channel) {
         await channel.client.tools.sortCategory(channel);
     }
 
-    // Deny everyone to view subject channel or category
-    if (channel.permissionsFor(channel.guild.roles.everyone).toArray().includes('VIEW_CHANNEL')) {
+    // Allow everyone to view channel
+    if (!channel.permissionsFor(channel.guild.roles.everyone).toArray().includes('VIEW_CHANNEL')) {
         await channel.updateOverwrite(channel.guild.roles.everyone, {
-            'VIEW_CHANNEL': false
-        });
-        channel.client.tools.log(`Denied @everyone to view #${channel.name}`, channel.guild);
-    }
-
-    let bypassRole = await fetchBypassRole(channel.guild);
-    if (!channel.permissionsFor(bypassRole).toArray().includes('VIEW_CHANNEL')) {
-        await channel.updateOverwrite(bypassRole, {
             'VIEW_CHANNEL': true
         });
-        channel.client.tools.log(`Allowed @${bypassRole.name} to view #${channel.name}`, channel.guild);
+        channel.client.tools.log(`Allowed @everyone to view #${channel.name}`, channel.guild);
+    }
+
+    // Dont let hide role see channels they have not joined
+    let bypassRole = await fetchBypassRole(channel.guild);
+    if (channel.permissionsFor(bypassRole).toArray().includes('VIEW_CHANNEL')) {
+        await channel.updateOverwrite(bypassRole, {
+            'VIEW_CHANNEL': false
+        });
+        channel.client.tools.log(`Denied @${bypassRole.name} from viewing #${channel.name}`, channel.guild);
     }
 }
 module.exports.updateSubjectOverwrites = updateSubjectOverwrites;
@@ -92,7 +94,7 @@ module.exports.createSubject = async (guild, subjectCode, member) => {
 }
 
 async function fetchBypassRole(guild) {
-    let bypassRole = await guild.roles.cache.find(role => role.name.toLowerCase() == 'view channels');
+    let bypassRole = await guild.roles.cache.find(role => role.name.toLowerCase() == 'hide channels');
 
     if (!bypassRole) {
         if (!guild.data) {
@@ -101,7 +103,7 @@ async function fetchBypassRole(guild) {
 
         bypassRole = await guild.roles.create({
             data: {
-                name: 'View channels'
+                name: 'Hide channels'
             }
         });
         guild.client.tools.log(`Created @${bypassRole.name}`, guild);

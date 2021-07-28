@@ -29,7 +29,7 @@ module.exports.execute = async (message, client) => {
             let content = words.join(' ');
             // client.tools.sendWebhook(message.channel, message.author.username, content, message.author.displayAvatarURL());
             let modChannel = await client.tools.fetchModChannel(message.guild);
-            modChannel.send(`${message.author} used profane language:\n>>> ${message.content}`);
+            modChannel.send(`${message.author} used profane language in ${message.channel}:\n>>> ${message.content}`);
         }
     }
 

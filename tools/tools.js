@@ -70,6 +70,7 @@ module.exports.fetchModChannel = async (guild) => {
 }
 
 module.exports.sortCategory = async (category) => {
+    if (!category.name.toLowerCase().match(/[1-4]00 level subjects/g)) return;
     let channels = [];
     await Promise.all(category.children.map(async channel => {
         channels[channel.position] = channel.name;

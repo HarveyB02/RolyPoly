@@ -7,5 +7,6 @@ module.exports = mongoose.model('guild', new mongoose.Schema({
     roleColour: { type: String, default: config.subjectRoleColour },
     modChannelName: { type: String, default: config.modChannelName },
     botChannelNames: { type: [String] },
-    allowListToggle: { type: Boolean, default: false }
+    allowListToggle: { type: Boolean, default: false },
+    courses: { type: [String] }
 }));

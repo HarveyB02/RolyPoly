@@ -2,7 +2,7 @@ const { MessageEmbed } = require("discord.js");
 const config = require('../../config.json');
 
 module.exports = {
-    description:'Assigns you the role for a subject',
+    description:'Assigns you the role for a subject or course',
     location: 'spoke',
     minArgs: 1,
     maxArgs: 5,
@@ -16,6 +16,27 @@ module.exports = {
         // Loop through subject codes
         for (let i = 0; i < args.length; i ++) {
             let subjectCode = args[i].toLowerCase().replace(',', '');
+
+            // If course role
+            if (message.guild.data.courses.includes(subjectCode)) {
+                let courseRole = await message.guild.roles.cache.find(r => r.name.toLowerCase() == subjectCode);
+
+                if (!courseRole) {
+                    let index = message.guild.data.courses.indexOf(subjectCode);
+                    message.guild.data.courses.splice(index, 1);
+                    message.guild.data.markModified('courses'); 
+                    await message.guild.data.save();
+                    client.tools.log(`could not find role for ${subjectCode}, removed from the course list`, message.guild);
+
+                    embed.addField(subjectCode.toUpperCase(), 'Invalid subject code');
+                    embed.setColor(config.failColour);
+                } else {
+                    message.member.roles.add(courseRole);
+                    embed.addField(subjectCode.toUpperCase(), 'Applied course role');
+                }
+
+                continue;
+            }
 
             // Check if code is valid
             if (!subjectCode.match(client.subjectRegex)) {

@@ -39,6 +39,9 @@ module.exports = {
 
             member.send(embed);
 
+            let moderator = reaction.users.cache.find(u => u.id != client.user.id);
+            reaction.message.channel.send(`Request for \`${subjectCode}\` from \`${member.user.tag}\` was approved by \`${moderator.tag}\``);
+
         // Deny request
         } else if (reaction.emoji.name == '❌') {
             reaction.message.delete();
@@ -50,6 +53,9 @@ module.exports = {
                 .setColor(0xED4245);
 
             member.send(embed);
+
+            let moderator = reaction.users.cache.find(u => u.id != client.user.id);
+            reaction.message.channel.send(`Request for \`${subjectCode}\` from \`${member.user.tag}\` was denied by \`${moderator.tag}\``);
         }
     }
 }

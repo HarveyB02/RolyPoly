@@ -2,7 +2,7 @@ const { MessageEmbed } = require("discord.js");
 const config = require('../../config.json');
 
 module.exports = {
-    description:'Removes a subject role',
+    description:'Removes a subject or course role',
     location: 'spoke',
     minArgs: 1,
     maxArgs: 5,
@@ -16,6 +16,21 @@ module.exports = {
         // Loop through subject codes
         for (let i = 0; i < args.length; i ++) {
             subjectCode = args[i].toLowerCase().replace(',', '');
+
+            // If course role
+            if (message.guild.data.courses.includes(subjectCode)) {
+                let courseRole = await message.member.roles.cache.find(r => r.name.toLowerCase() == subjectCode);
+
+                if (!courseRole) {
+                    embed.addField(subjectCode.toUpperCase(), 'You have not selected this course role');
+                    embed.setColor(config.failColour);
+                } else {
+                    message.member.roles.remove(courseRole);
+                    embed.addField(subjectCode.toUpperCase(), 'Left course');
+                }
+
+                continue;
+            }
 
             // Check if code is valid
             if (!subjectCode.match(client.subjectRegex)) {
