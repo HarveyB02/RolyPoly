@@ -1,7 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 
 module.exports = {
-    description: 'DM a user the information message', 
+    description: 'DM the information message to all users who have not selected a subject role', 
     location: 'spoke', 
     cooldown: 5, 
     permissions: ['MANAGE_GUILD'], 
@@ -9,6 +9,7 @@ module.exports = {
         message.reply('Messaging all members who have not selected a subject role\nThis could take a while')
 
         let messages = 0;
+        await message.guild.members.fetch();
         await message.guild.members.cache.filter(async member => {
             if (member.user.bot) return;
             let roles = await member.roles.cache.filter(role => role.name.toLowerCase().match(client.subjectRegex));
