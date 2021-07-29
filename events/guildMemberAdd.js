@@ -2,6 +2,8 @@ const { MessageEmbed } = require('discord.js');
 
 module.exports = {
     execute: async (member, client) => {
+        if (member.guild == client.config.hubID) return;
+
         if (!member.guild.data) member.guild.data = await client.database.fetchGuild(member.guild);
 
         const embed1 = new MessageEmbed()

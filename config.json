@@ -6,6 +6,5 @@
     "mutedRoleColour": "#5d5d5d",
     "successColour": "#57F278",
     "failColour": "#ED4245",
-    "modChannelName": "rolypoly-alerts",
-    "botChannelName": "bots"
+    "modChannelName": "rolypoly-alerts"
 }

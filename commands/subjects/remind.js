@@ -1,10 +1,10 @@
 const { MessageEmbed } = require('discord.js');
 
 module.exports = {
-    description: 'Force the bot to send the welcome message to a user', 
+    description: 'DM a user the information message', 
     arguments: '<user>~member', 
     minArgs: 1, 
-    location: 'text', 
+    location: 'spoke', 
     cooldown: 5, 
     permissions: ['MANAGE_GUILD'], 
     execute: async ({ client, message, args }) => {
