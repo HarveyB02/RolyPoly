@@ -15,7 +15,7 @@ module.exports = {
                     await client.muteTools.updateMuteOverwrites(channel, mutedRole);
                 }
             } else {
-                let cSubjects = []; // Array of subjects from channel names
+                //let cSubjects = []; // Array of subjects from channel names
                 
                 // Looping through all channels
                 let channels = await guild.channels.cache.map(c => c);
@@ -25,12 +25,12 @@ module.exports = {
                     await client.subjectTools.updateSubjectOverwrites(channel);
                     await client.muteTools.updateMuteOverwrites(channel, mutedRole);
 
-                    if (channel.name.match(client.subjectRegex)) {
+                    /*if (channel.name.match(client.subjectRegex)) {
                         cSubjects[cSubjects.length] = channel.name.toLowerCase();
-                    }
+                    }*/
                 }
 
-                let rSubjects = []; // Array of subjects from role names
+                /*let rSubjects = []; // Array of subjects from role names
                 await Promise.all(guild.roles.cache.map(async role => {
                     if (role.name.toLowerCase().match(client.subjectRegex)) {
                         if (role.name.toUpperCase() != role.name) {
@@ -45,7 +45,7 @@ module.exports = {
                 let missingChannels = rSubjects.filter(e => !cSubjects.includes(e));
                 await Promise.all(missingChannels.map(async subjectCode => {
                     client.subjectTools.createSubject(guild, subjectCode);
-                }));
+                }));*/
             }
         }
     }
