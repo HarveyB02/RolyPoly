@@ -13,7 +13,7 @@ client.database = require('./database/mongoose.js');
 client.tools = require('./tools/tools.js');
 client.muteTools = require('./tools/muteTools.js');
 client.subjectTools = require('./tools/subjectTools.js');
-client.subjectRegex = /^([a-z]{4}[1-4][0-9]{2})|([a-z]{3}[1-4][0-9]{3})$/;
+client.subjectRegex = /^([a-z]{4}([1-4]|[89])[0-9]{2})|([a-z]{3}([1-4]|[89])[0-9]{3})$/;
 
 async function init() {
     // Load Discordjs Events
