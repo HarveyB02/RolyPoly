@@ -13,6 +13,24 @@ module.exports = {
         const embed = new MessageEmbed()
             .setColor(config.successColour);
 
+        let courseName  = args.join(' ');
+        if (message.guild.data.courses.includes(courseName)) {
+            let courseRole = await message.guild.roles.cache.find(r => r.name.toLowerCase() == courseName.toLowerCase());
+
+            if (!courseRole) {
+                let index = message.guild.data.courses.indexOf(courseName);
+                message.guild.data.courses.splice(index, 1);
+                message.guild.data.markModified('courses'); 
+                await message.guild.data.save();
+                client.tools.log(`could not find role for ${courseName}, removed from the course list`, message.guild);
+            } else {
+                message.member.roles.add(courseRole);
+                embed.addField(courseName.toUpperCase(), 'Applied course role');
+                message.channel.send(embed);
+                return;
+            }
+        }
+
         // Loop through subject codes
         for (let i = 0; i < args.length; i ++) {
             let subjectCode = args[i].toLowerCase().replace(',', '');
