@@ -5,7 +5,6 @@ module.exports = {
     description:'Assigns you the role for a subject or course',
     location: 'spoke',
     minArgs: 1,
-    maxArgs: 5,
     arguments: '<subject code> {subject code}',
     cooldown: 5,
     execute: async ({ client, message, args }) => {
@@ -13,7 +12,7 @@ module.exports = {
         const embed = new MessageEmbed()
             .setColor(config.successColour);
 
-        let courseName  = args.join(' ');
+        let courseName = args.join(' ');
         if (message.guild.data.courses.includes(courseName)) {
             let courseRole = await message.guild.roles.cache.find(r => r.name.toLowerCase() == courseName.toLowerCase());
 
@@ -32,7 +31,7 @@ module.exports = {
         }
 
         // Loop through subject codes
-        for (let i = 0; i < args.length; i ++) {
+        for (let i = 0; i < args.length && i < 5; i ++) {
             let subjectCode = args[i].toLowerCase().replace(',', '');
 
             // If course role
