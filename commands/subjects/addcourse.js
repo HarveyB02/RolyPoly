@@ -12,8 +12,6 @@ module.exports = {
         const embed = new MessageEmbed();
         
         if (message.guild.data.courses.includes(course)) {
-            console.log(message.guild.data.courses)
-            
             let index = message.guild.data.courses.indexOf(course);
             message.guild.data.courses.splice(index, 1);
             message.guild.data.markModified('courses'); 
@@ -23,9 +21,6 @@ module.exports = {
             embed.setTitle(`Removed ${course} from the course list`)
                 .setColor(client.config.successColour)
                 .setDescription(`Members can no longer choose this role`);
-
-                console.log(message.guild.data.courses)
-
         } else {
             
             message.guild.data.courses[message.guild.data.courses.length] = course;

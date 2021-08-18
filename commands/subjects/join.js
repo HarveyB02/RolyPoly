@@ -62,6 +62,15 @@ module.exports = {
                 continue;
             }
 
+            // Check if redirect
+            for (let i = 0; i < message.guild.data.redirects.length; i++) {
+                let redirect = message.guild.data.redirects[i];
+                if (redirect.from == subjectCode) {
+                    embed.addField(subjectCode.toUpperCase(), `${subjectCode.toUpperCase()} is the same subject as ${redirect.to.toUpperCase()}, enrolling you in ${redirect.to.toUpperCase()} instead`);
+                    subjectCode = redirect.to;
+                }
+            }
+
             // Check if already joined
             if (message.member.roles.cache.find(role => role.name.toLowerCase() == subjectCode)) {
                 embed.addField(subjectCode.toUpperCase(), 'You have already joined');

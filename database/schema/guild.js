@@ -8,5 +8,9 @@ module.exports = mongoose.model('guild', new mongoose.Schema({
     modChannelName: { type: String, default: config.modChannelName },
     botChannelNames: { type: [String] },
     allowListToggle: { type: Boolean, default: false },
-    courses: { type: [String] }
+    courses: { type: [String] },
+    redirects: [{
+        from: { type: String },
+        to: { type: String }
+    }]
 }));
