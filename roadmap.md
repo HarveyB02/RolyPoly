@@ -29,6 +29,3 @@
 #### v1.0 - Release
 - Rework elements based on feedback
 
-#### v?.? - ?
-- The future 👻
-

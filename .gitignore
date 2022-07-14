@@ -1,5 +1,38 @@
-# Dependency directories
-node_modules/
+# dependencies
+/website/node_modules
+/api/node_modules
+/website/.pnp
+.pnp.js
 
-# dotenv environment variables file
+# testing
+/website/coverage
+
+# next.js
+/website/.next/
+/website/out/
+
+# production
+/website/build
+/bot/dist
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env file
 .env
+
+# local env files
+.env*.local
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
