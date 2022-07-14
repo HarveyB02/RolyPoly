@@ -13,7 +13,7 @@
 
 # production
 /website/build
-/bot/dist
+/api/dist
 
 # misc
 .DS_Store
