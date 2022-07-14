@@ -1,5 +1,5 @@
 
-# Poly
+# Poly 🔖
 [![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)](http://unlicense.org/)
 
 A simple and lightweight management discord bot, built for university communities.

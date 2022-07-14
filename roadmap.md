@@ -2,8 +2,6 @@
 ## Roadmap
 
 #### v0.1 - Framework
-- Command handler
-- Permission system
 - Web server
 - Discord OAuth2 integration
 

@@ -4,12 +4,12 @@ config()
 import createApp from './utils/createApp'
 import './database'
 
-const port = process.env.PORT || 3001
+const PORT = process.env.PORT || 3001
 
 async function main() {
 	try {
 		const app = createApp()
-		app.listen(port, () => console.log(`API Running on Port ${port}`))
+		app.listen(PORT, () => console.log(`API Running on Port ${PORT}`))
 	} catch (err) {
 		console.error(err)
 	}

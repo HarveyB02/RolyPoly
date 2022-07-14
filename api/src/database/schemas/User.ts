@@ -1,6 +1,7 @@
-import mongoose, { Schema } from 'mongoose'
+import mongoose, { ObjectId, Schema } from 'mongoose'
 
-interface User {
+export interface User {
+	id: string
 	userId: string
 	accessToken: string
 	refreshToken: string
