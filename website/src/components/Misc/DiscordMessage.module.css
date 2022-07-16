@@ -47,10 +47,15 @@
 }
 
 .content {
-	font-size: 0.96rem;
-	line-height: 25px;
 	padding-left: 56px;
 	margin-left: -56px;
-	margin-top: -3px;
+}
+.content > p {
+	margin: 0;
+	font-size: 0.96rem;
+	line-height: 22px;
 	color: #2e3338;
+}
+.content > p + p {
+	margin-top: 4px;
 }

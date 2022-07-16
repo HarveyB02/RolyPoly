@@ -11,11 +11,12 @@ type HomeProps = {
 const Home: NextPage<HomeProps> = ({ guilds }) => {
 	return (
 		<MainTemplate title="Home | Poly" guilds={guilds}>
-			<h1>Lorem ipsum dolor sit amet.</h1>
+			<h1>Automate your university community.</h1>
 			<DiscordMessage>
-				Mauris a euismod mi. Donec a quam at lectus ultricies ornare id quis<br/>
-				Aliquam vitae ipsum ut erat<br/>
-				Sed fermentum vel elit at pharetra
+				<p>I'm Poly. A Discord bot designed to make your life easier</p>
+				<p>I can automatically setup channels & roles for subjects in your study - no permission hassle</p>
+				<p>I allow members to choose what notifications and content they'd like to see</p>
+				<p>I dont use any commands, new members can pick up and go</p>
 			</DiscordMessage>
 		</MainTemplate>
 	)

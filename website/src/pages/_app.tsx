@@ -1,5 +1,5 @@
 import type { AppProps } from 'next/app'
-import { createTheme, NextUIProvider } from "@nextui-org/react"
+import { createTheme, NextUIProvider, Link } from "@nextui-org/react"
 import { ThemeProvider as NextThemesProvider } from 'next-themes'
 import '../utils/styles/globals.css'
 
@@ -63,6 +63,11 @@ const App = ({ Component, pageProps }: AppProps) => {
 			}}
 		>
 			<NextUIProvider>
+				<Link
+					color="text"
+					className="credit"
+					href="https://github.com/HarveyB02"
+				>@HarveyB02</Link>
 				<Component {...pageProps} />
 			</NextUIProvider>
 		</NextThemesProvider>

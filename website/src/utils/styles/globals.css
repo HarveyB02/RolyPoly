@@ -39,6 +39,13 @@ a {
 	margin: 0 10px;
 }
 
+.credit {
+	position: fixed;
+	bottom: 15px;
+	left: 15px;
+	color: grey;
+}
+
 .fadeIn {
     -webkit-animation: fadein 1s;
     -moz-animation: fadein 1s;
