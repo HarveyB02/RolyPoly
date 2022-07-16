@@ -1,9 +1,13 @@
 import { Router } from 'express'
-import { getGuildsController } from '../../controllers/guilds'
-import { isAuthenticated } from '../../utils/middlewares' 
+import { getGuildController, getGuildPermissionsController, getGuildsController } from '../../controllers/guilds'
+import { cacheResult, isAuthenticated, rateLimit } from '../../utils/middlewares' 
 
 const router = Router()
 
-router.get('/', isAuthenticated, getGuildsController)
+router.get('/', cacheResult(60 * 1000), rateLimit(2000), isAuthenticated, getGuildsController)
+
+router.get('/:id/permissions', cacheResult(60 * 1000), rateLimit(2000), isAuthenticated, getGuildPermissionsController)
+
+router.get('/:id', cacheResult(60 * 1000), rateLimit(2000), isAuthenticated, getGuildController)
 
 export default router

@@ -9,6 +9,7 @@
 - View manageable servers
 - Server config
 - Subject select channel
+- Alert channel
 - Add courses
 
 #### v0.3 - Functionality

@@ -21,7 +21,7 @@ function createApp(): Express {
 
 	// Enable Sessions
 	app.use(session({
-		secret: 'IMbbZ1HJqrTnSHQjpfLSmjGjIOllkvaNLcx5OnqKK7m',
+		secret: process.env.SECRET!,
 		resave: false,
 		saveUninitialized: false,
 		cookie: { maxAge: 1000 * 60 * 60 * 24  * 7 },

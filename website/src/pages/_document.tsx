@@ -15,7 +15,6 @@ class MyDocument extends Document {
 		return (
 			<Html lang="en">
 				<Head>
-					<title>Config Panel | Poly</title>
 					<meta name="description" content="University Discord server management" />
 					<link rel="apple-touch-icon" href="/favicon192.png" />
 					<link rel="manifest" href="/manifest.json" />

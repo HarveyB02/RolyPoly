@@ -1,0 +1,21 @@
+@font-face {
+	font-family: MazeletterPath;
+	src: url("/mazeletter-path.ttf")
+}
+
+.mazeletter {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: -88px;
+	bottom: -88px;
+	background-color: white;
+	word-wrap: break-word;
+	z-index: -1;
+	pointer-events: none;
+	line-height: 88px;
+	font-size: 88px;
+	font-family: MazeletterPath;
+	letter-spacing: normal;
+	color: #f9f9f9;
+}

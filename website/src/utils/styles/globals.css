@@ -1,0 +1,96 @@
+html,
+body {
+	padding: 0;
+	margin: 0;
+	font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+		Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+	height: 100%;
+	background: none;
+	overflow: hidden;
+}
+
+#__next {
+	height: 100%;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+.main {
+	padding: 50px 25px;
+}
+
+.nextui-modal {
+	padding-bottom: 20px;
+	border-radius: var(--nextui-radii-md);
+}
+
+.nextui-button {
+	min-width: auto;
+	font-weight: 600;
+}
+.nextui-button > span {
+	margin: 0 10px;
+}
+
+.fadeIn {
+    -webkit-animation: fadein 1s;
+    -moz-animation: fadein 1s;
+	-ms-animation: fadein 1s;
+    -o-animation: fadein 1s;
+    animation: fadein 1s;
+}
+@keyframes fadein {
+    from {
+		margin-top: 20px;
+		margin-bottom: -20px;
+		opacity: 0;
+	}
+    to {
+		margin-top: 0px;
+		margin-bottom: 0px;
+		opacity: 1;
+	}
+}
+@-moz-keyframes fadein {
+    from {
+		margin-top: 20px;
+		margin-bottom: -20px;
+		opacity: 0;
+	}
+    to {
+		margin-top: 0px;
+		margin-bottom: 0px;
+		opacity: 1;
+	}
+}
+@-webkit-keyframes fadein {
+    from {
+		margin-top: 20px;
+		margin-bottom: -20px;
+		opacity: 0;
+	}
+    to {
+		margin-top: 0px;
+		margin-bottom: 0px;
+		opacity: 1;
+	}
+}
+@-ms-keyframes fadein {
+    from {
+		margin-top: 20px;
+		margin-bottom: -20px;
+		opacity: 0;
+	}
+    to {
+		margin-top: 0px;
+		margin-bottom: 0px;
+		opacity: 1;
+	}
+}

@@ -1,0 +1,50 @@
+.navbar {
+	box-shadow: rgba(2, 1, 1, 0.1) 0px 5px 20px -5px;
+	background: white;
+}
+
+.navbar > div {
+	padding: 15px 25px;
+	display: flex;
+	flex-flow: row;
+	gap: 15px;
+	font-weight: 500;
+}
+.navbar > div > a {
+	display: flex;
+	flex-flow: row;
+	gap: 5px;
+	color: inherit;
+}
+.navbar > div > a > div {
+	width: 40px;
+	height: 40px;
+}
+.navbar > div > *, .navbar > div > a > * {
+	margin-top: auto;
+	margin-bottom: auto;
+}
+
+.navDivider {
+	margin-left: auto;
+}
+
+.title {
+	font-size: 29px;
+	line-height: 40px;
+	margin-right: 5px;
+}
+
+.link:hover {
+	color: var(--nextui-colors-primary);
+}
+.link {
+	transition: color 0.25s ease
+}
+
+.modalBody {
+	text-align: center;
+}
+.modalBody > p {
+	margin-bottom: 15px;
+}

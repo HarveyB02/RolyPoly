@@ -1,0 +1,56 @@
+.wrapper {
+	margin: 1.0625rem 0;
+	min-height: 2.75rem;
+	padding: .125rem 0 .125rem 56px;
+	position: relative;
+}
+
+.imageWrapper {
+	width: 40px;
+	height: 40px;
+	position: absolute;
+	left: 0;
+	margin-top: 4px;
+	border-radius: 50%;
+	overflow: hidden;
+	background: #36393E;
+}
+
+.username {
+	font-size: 0.96rem;
+	font-weight: 500;
+	line-height: 18px;
+	color: #060607;
+	display: inline;
+	margin-right: 4px;
+}
+
+.botTag {
+	height: 17px;
+	padding: 0px 4px 3px 4px;
+	border-radius: .1875rem;
+	background: #5865F2;
+	color: white;
+	font-size: 0.625rem;
+	vertical-align: top;
+	margin: 3px 4px 0px 1px;
+	display: inline-block;
+}
+
+.timestamp {
+	font-size: 0.73rem;
+	line-height: 18px;
+	color: #5e6772;
+	font-weight: 500;
+	margin-left: 4px;
+	display: inline-block;
+}
+
+.content {
+	font-size: 0.96rem;
+	line-height: 25px;
+	padding-left: 56px;
+	margin-left: -56px;
+	margin-top: -3px;
+	color: #2e3338;
+}
