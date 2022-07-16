@@ -1,26 +1,32 @@
 .navbar {
 	box-shadow: rgba(2, 1, 1, 0.1) 0px 5px 20px -5px;
+	transition: max-height 0.5s ease;
 	background: white;
+	max-height: 71px;
+	border-bottom: 1px lightgray solid;
 }
 
-.navbar > div {
+.container {
 	padding: 15px 25px;
 	display: flex;
 	flex-flow: row;
 	gap: 15px;
 	font-weight: 500;
+	position: relative;
+	z-index: 100;
+	background: white;
 }
-.navbar > div > a {
+.container > a {
 	display: flex;
 	flex-flow: row;
 	gap: 5px;
 	color: inherit;
 }
-.navbar > div > a > div {
+.container > a > div {
 	width: 40px;
 	height: 40px;
 }
-.navbar > div > *, .navbar > div > a > * {
+.container > *, .container > a > * {
 	margin-top: auto;
 	margin-bottom: auto;
 }
@@ -47,4 +53,60 @@
 }
 .modalBody > p {
 	margin-bottom: 15px;
+}
+
+.dropMenu,
+.dropMenuButton {
+	display: none;
+}
+
+.dropMenu {
+	background: #f9f9f9;
+	padding: 15px 25px;
+	gap: 5px;
+	transition: transform 0.5s ease;
+	transform: translateY(-100%);
+	box-shadow: rgba(2, 1, 1, 0.1) 0px 5px 20px -5px;
+}
+.dropMenu > div {
+	max-width: 50%;
+	display: flex;
+	flex-flow: column;
+	flex-grow: 1;
+	gap: 10px;
+}
+.dropMenu > div > * {
+	margin: auto 0;
+}
+
+.menuOpen {
+	transform: translateY(0%);
+}
+
+.navOpen {
+	max-height: 193px;
+	transition: max-height 0.5s ease;
+}
+
+@media screen and (max-width: 680px) {
+	.container > *:not(:first-child):not(.navDivider):not(.dropMenuButton) {
+		display: none;
+	}	
+
+	.dropMenu {
+		display: flex;
+	}
+	.dropMenuButton {
+		display: initial;
+	}
+
+	.navbar {
+		box-shadow: none;
+		background: none;
+		border-bottom: none;
+	}
+
+	.container {
+		border-bottom: 1px lightgray solid;
+	}
 }

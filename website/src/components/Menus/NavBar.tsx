@@ -12,15 +12,18 @@ type NavBarProps = {
 const NavBar = ({ guilds }: NavBarProps) => {
 	const [addModalOpen, setAddModelOpen] = useState(false)
 	const [helpModalOpen, setHelpModelOpen] = useState(false)
+	const [menuOpen, setMenuOpen] = useState(false)
 
 	const openAddModal = () => setAddModelOpen(true)
 	const closeAddModal = () => setAddModelOpen(false)
 	const openHelpModal = () => setHelpModelOpen(true)
 	const closeHelpModal = () => setHelpModelOpen(false)
 
+	const toggleMenu = () => setMenuOpen(!menuOpen)
+
 	return (
-		<div className={style.navbar}>
-			<Container lg>
+		<div className={`${style.navbar} ${menuOpen ? style.navOpen : ''}`}>
+			<Container lg className={style.container}>
 				<Link href="/">
 					<div><Image alt="Logo" src="/favicon192.png" height="40px" width="40px" /></div>
 					<span className={style.title}>Poly</span>
@@ -33,7 +36,21 @@ const NavBar = ({ guilds }: NavBarProps) => {
 
 				<Button color="secondary" onClick={openAddModal}>Invite</Button>
 				<GuildSelect guilds={guilds}/>
+
+				<Button className={style.dropMenuButton} onClick={toggleMenu}>Menu</Button>		
 			</Container>
+			
+			<div className={`${style.dropMenu} ${menuOpen ? style.menuOpen : ''}`}>
+				<div>
+					<Link href="https://github.com/HarveyB02/Poly" color="text" className={style.link}>Github</Link>
+					<Link onClick={openHelpModal} color="text" className={style.link}>Help</Link>
+					<Link href="https://csitcommunity.com" color="text" className={style.link}>CSIT Community</Link>
+				</div>
+				<div>
+					<Button color="secondary" onClick={openAddModal}>Invite</Button>
+					<GuildSelect guilds={guilds}/>
+				</div>
+			</div>
 
 			<Modal
 				closeButton
