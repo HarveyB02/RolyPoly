@@ -2,9 +2,7 @@ import type { AppProps } from 'next/app'
 import { createTheme, NextUIProvider } from "@nextui-org/react"
 import { ThemeProvider as NextThemesProvider } from 'next-themes'
 import '../utils/styles/globals.css'
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import LoadingScreen from '../components/Screens/Loading'
+import NextNProgress from 'nextjs-progressbar'
 
 const theme = createTheme({
 	type: 'light',
@@ -57,22 +55,6 @@ const theme = createTheme({
 })
 
 const App = ({ Component, pageProps }: AppProps) => {
-	const router = useRouter()
-	const [loadingUrl, setLoadingUrl] = useState<null | string>(null)
-
-	useEffect(() => {
-		const handleStart = (url: string) => {
-			setLoadingUrl(url)
-		}
-		const handleComplete = () => {
-			setLoadingUrl(null)
-		}
-
-		router.events.on('routeChangeStart', handleStart)
-		router.events.on('routeChangeComplete', handleComplete)
-		router.events.on('routeChangeError', handleComplete)
-	}, [router])
-	
 	return (
 		<NextThemesProvider
 			defaultTheme="light"
@@ -82,7 +64,8 @@ const App = ({ Component, pageProps }: AppProps) => {
 			}}
 		>
 			<NextUIProvider>
-				{loadingUrl ? <LoadingScreen loadingUrl={loadingUrl}/> : <Component {...pageProps} />}
+				<NextNProgress color="#f2112f" height={3} />
+				<Component {...pageProps}/>
 			</NextUIProvider>
 		</NextThemesProvider>
 	)
