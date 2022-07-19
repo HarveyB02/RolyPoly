@@ -1,4 +1,5 @@
-import express, { Express } from 'express'
+import express, { Express, NextFunction, Request, Response } from 'express'
+import { Client } from 'discord.js'
 import cors from 'cors'
 import session from 'express-session'
 import passport from 'passport'
@@ -6,8 +7,14 @@ import routes from '../routes'
 import store from 'connect-mongo'
 require('../strategies/discord')
 
-function createApp(): Express {
+function createApp(): [Express, Client<boolean>] {
 	const app = express()
+	const client = new Client({ intents: ["Guilds"] }) // Discord.js
+
+	app.use((req: Request, res: Response, next: NextFunction) => {
+		res.locals.client = client
+		next()
+	})
 
 	// Enable Parsing Middleware for Requests
 	app.use(express.json())
@@ -34,7 +41,7 @@ function createApp(): Express {
 
 	app.use('/api', routes)
 
-	return app
+	return [app, client]
 }
 
 export default createApp

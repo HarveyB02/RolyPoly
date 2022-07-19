@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import passport from 'passport'
-import { getGuildPermissionsController } from '../../controllers/guilds'
-import { cacheResult, isAuthenticated, rateLimit } from '../../utils/middlewares'
+import { getGuildAuthController } from '../../controllers/guilds'
+import { isAuthenticated } from '../../utils/middlewares'
 
 const router = Router()
 
@@ -19,6 +19,6 @@ router.get('/', (req, res) => {
 		: res.status(401).send({ msg: 'Unauthorized' })
 })
 
-router.get('/guilds/:id', cacheResult(60 * 1000), rateLimit(3000), isAuthenticated, getGuildPermissionsController)
+router.get('/guilds/:id', isAuthenticated, getGuildAuthController)
 
 export default router

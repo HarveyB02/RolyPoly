@@ -1,51 +1,58 @@
 import axios from 'axios'
+import { Client, RESTAPIPartialCurrentUserGuild } from 'discord.js'
 import { User } from '../../database/schemas'
-import { DISCORD_API_URL } from '../../utils/constants'
-import { Channels, Guild, PartialGuild, Roles } from '../../utils/types'
+import { cacheValue, getCachedValue } from '../../utils/cache'
 
-export function getBotGuildsService() {
-	return axios.get<PartialGuild[]>(`${DISCORD_API_URL}/users/@me/guilds`, {
-		headers: { Authorization: `Bot ${process.env.TOKEN}`}
-	})
+export function getBotGuildsService(client: Client<boolean>) {
+	return Array.from(client.guilds.cache.values())
 }
 
 export async function getUserGuildsService(id: string) {
+	const cacheKey = `getUserGuildsService_${id}`
+	const cachedValue: RESTAPIPartialCurrentUserGuild[] = getCachedValue(cacheKey)
+	if (cachedValue) return cachedValue
+	
 	const user = await User.findById(id)
 	if (!user) throw new Error('No user found')
-	return axios.get<PartialGuild[]>(`${DISCORD_API_URL}/users/@me/guilds`, {
+
+	const response = await axios.get<RESTAPIPartialCurrentUserGuild[]>(`https://discord.com/api/v10/users/@me/guilds`, {
 		headers: { Authorization: `Bearer ${user.accessToken}`}
 	})
+	cacheValue(response.data, cacheKey, 10000)
+
+	return response.data
 }
 
-export async function getMutualGuildsService(id: string) {
-	const { data: botGuilds } = await getBotGuildsService()
-	const { data: userGuilds } = await getUserGuildsService(id)
+export async function getMutualGuildsService(client: Client<boolean>, userId: string) {
+	const botGuilds = getBotGuildsService(client)
+	const userGuilds = await getUserGuildsService(userId)
 
-	const adminUserGuilds = userGuilds.filter(
-		({ permissions }) => (parseInt(permissions) & 0x8) === 0x8 // 0x8 is the Admin Permission Flag
+	const userAdminGuilds = userGuilds.filter(
+		// 0x8 is the Admin Permission Flag
+		({ permissions }) => (parseInt(permissions) & 0x8) === 0x8
 	)
 
-	const mutualGuilds = adminUserGuilds.filter((guild) =>
+	const mutualGuilds = userAdminGuilds.filter((guild) =>
 		botGuilds.some((botGuild) => botGuild.id === guild.id)
 	)
 
 	return mutualGuilds
 }
 
-export function getGuildService(id: string) {
-	return axios.get<Guild>(`${DISCORD_API_URL}/guilds/${id}`, {
-		headers: { Authorization: `Bot ${process.env.TOKEN}` }
-	})
+export function getGuildService(client: Client<boolean>, id: string) {
+	const guild = client.guilds.cache.get(id)
+	if (!guild) return null
+	return guild
 }
 
-export function getGuildRolesService(id: string) {
-	return axios.get<Roles>(`${DISCORD_API_URL}/guilds/${id}/roles`, {
-		headers: { Authorization: `Bot ${process.env.TOKEN}` }
-	})
+export function getGuildChannelsService(client: Client<boolean>, id: string) {
+	const guild = client.guilds.cache.get(id)
+	if (!guild) return null
+	return guild.channels.cache
 }
 
-export function getGuildChannelsService(id: string) {
-	return axios.get<Channels>(`${DISCORD_API_URL}/guilds/${id}/channels`, {
-		headers: { Authorization: `Bot ${process.env.TOKEN}` }
-	})
+export function getGuildRolesService(client: Client<boolean>, id: string) {
+	const guild = client.guilds.cache.get(id)
+	if (!guild) return null
+	return guild.roles.cache
 }

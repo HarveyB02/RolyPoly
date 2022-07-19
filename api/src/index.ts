@@ -6,13 +6,12 @@ import './database'
 
 const PORT = process.env.PORT || 3001
 
-async function main() {
-	try {
-		const app = createApp()
-		app.listen(PORT, () => console.log(`API Running on Port ${PORT}`))
-	} catch (err) {
-		console.error(err)
-	}
-}
+try {
+	const [app, client] = createApp()
 
-main()
+	client.on('ready', (c) => console.log(`Connected Discord as ${c.user.tag}`))
+	client.login(process.env.TOKEN)
+	app.listen(PORT, () => console.log(`API Running on Port ${PORT}`))
+} catch (err) {
+	console.error(err)
+}

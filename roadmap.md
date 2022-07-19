@@ -21,6 +21,7 @@
 #### v0.4 - Advanced config
 - Subject code regex
 - Subject category regex
+- Subject redirects
 
 #### v0.5 - Polish
 - Refine code, comments, UI & UX
