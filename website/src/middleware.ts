@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { fetchMutualGuilds, checkGuildAuth } from './utils/api'
+import { checkGuildAuth } from './utils/api'
 
 const PATTERNS = [
 		[

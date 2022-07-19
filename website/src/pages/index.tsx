@@ -10,7 +10,10 @@ type Props = {
 }
 
 const Home: NextPage<Props> = ({ guilds }) => {
-	if (!guilds) return <NotFound/>
+	if (!guilds) return <NotFound
+			customMessage={<><b>500</b> | An error has occured, please try again :&#40;</>}
+			customTitle="500 - Error | Poly"
+		/>
 	
 	return (
 		<MainTemplate title="Home | Poly" guilds={guilds}>

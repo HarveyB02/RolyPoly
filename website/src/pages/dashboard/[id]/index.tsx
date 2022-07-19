@@ -17,7 +17,10 @@ type Props = {
 }
 
 const Dashboard: NextPage<Props> = ({ guilds, guild, roles, channels }) => {
-	if (!guilds || !guild || !roles || !channels) return <NotFound/>
+	if (!guilds || !guild || !roles || !channels) return <NotFound
+			customMessage={<><b>500</b> | An error has occured, please try again :&#40;</>}
+			customTitle="500 - Error | Poly"
+		/>
 
 	const validRoles = roles.filter(role => role.id !== guild.id)
 	const textChannels = channels.filter(channel => channel.type === 0)
@@ -74,8 +77,12 @@ const Dashboard: NextPage<Props> = ({ guilds, guild, roles, channels }) => {
 				/>
 				<Spacer y={0.75}/>
 
+				<Text size={18} weight="medium">Subject redirects</Text>
+				<Spacer y={0.75}/>
+
 				<Collapse.Group className={style.advanced}>
 					<Collapse title="Advanced">
+						<div className="divider"></div>
 						<Text size={18} weight="medium">Subject code validation regex</Text>
 						<Input
 							bordered
