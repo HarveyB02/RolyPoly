@@ -1,7 +1,10 @@
 import type { AppProps } from 'next/app'
-import { createTheme, NextUIProvider, Link } from "@nextui-org/react"
+import { createTheme, NextUIProvider } from "@nextui-org/react"
 import { ThemeProvider as NextThemesProvider } from 'next-themes'
 import '../utils/styles/globals.css'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import LoadingScreen from '../components/Screens/Loading'
 
 const theme = createTheme({
 	type: 'light',
@@ -54,6 +57,22 @@ const theme = createTheme({
 })
 
 const App = ({ Component, pageProps }: AppProps) => {
+	const router = useRouter()
+	const [loadingUrl, setLoadingUrl] = useState<null | string>(null)
+
+	useEffect(() => {
+		const handleStart = (url: string) => {
+			setLoadingUrl(url)
+		}
+		const handleComplete = () => {
+			setLoadingUrl(null)
+		}
+
+		router.events.on('routeChangeStart', handleStart)
+		router.events.on('routeChangeComplete', handleComplete)
+		router.events.on('routeChangeError', handleComplete)
+	}, [router])
+	
 	return (
 		<NextThemesProvider
 			defaultTheme="light"
@@ -63,12 +82,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 			}}
 		>
 			<NextUIProvider>
-				<Link
-					color="text"
-					className="credit"
-					href="https://github.com/HarveyB02"
-				>@HarveyB02</Link>
-				<Component {...pageProps} />
+				{loadingUrl ? <LoadingScreen loadingUrl={loadingUrl}/> : <Component {...pageProps} />}
 			</NextUIProvider>
 		</NextThemesProvider>
 	)

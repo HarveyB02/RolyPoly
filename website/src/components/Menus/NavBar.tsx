@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import style from './NavBar.module.css'
-import { Button, Container, Link, Modal, Text } from '@nextui-org/react'
+import { Button, Container, Modal, Text, Image, Link as NextLink } from '@nextui-org/react'
 import { PartialGuild } from '../../utils/types'
 import GuildSelect from '../Buttons/GuildSelect'
-import Image from 'next/image'
+import Link from 'next/link'
 
 type NavBarProps = {
 	guilds: PartialGuild[] | null
@@ -25,12 +25,22 @@ const NavBar = ({ guilds }: NavBarProps) => {
 		<div className={`${style.navbar} ${menuOpen ? style.navOpen : ''}`}>
 			<Container lg className={style.container}>
 				<Link href="/">
-					<div><Image alt="Logo" src="/favicon192.png" height="40px" width="40px" /></div>
-					<span className={style.title}>Poly</span>
+					<div className="pointer">
+						<div>
+							<Image
+								showSkeleton
+								alt="Logo"
+								src="/favicon192.png"
+								height="40px" 
+								width="40px"
+							/>
+						</div>
+						<span className={style.title}>Poly</span>
+					</div>
 				</Link>
-				<Link href="https://github.com/HarveyB02/Poly" color="text" className={style.link}>Github</Link>
-				<Link onClick={openHelpModal} color="text" className={style.link}>Help</Link>
-				<Link href="https://csitcommunity.com" color="text" className={style.link}>CSIT Community</Link>
+				<NextLink href="https://github.com/HarveyB02/Poly" color="text" className={style.link}>Github</NextLink>
+				<NextLink onClick={openHelpModal} color="text" className={style.link}>Help</NextLink>
+				<NextLink href="https://csitcommunity.com" color="text" className={style.link}>CSIT Community</NextLink>
 
 				<div className={style.navDivider}></div>
 
@@ -42,9 +52,9 @@ const NavBar = ({ guilds }: NavBarProps) => {
 			
 			<div className={`${style.dropMenu} ${menuOpen ? style.menuOpen : ''}`}>
 				<div>
-					<Link href="https://github.com/HarveyB02/Poly" color="text" className={style.link}>Github</Link>
-					<Link onClick={openHelpModal} color="text" className={style.link}>Help</Link>
-					<Link href="https://csitcommunity.com" color="text" className={style.link}>CSIT Community</Link>
+					<NextLink href="https://github.com/HarveyB02/Poly" color="text" className={style.link}>Github</NextLink>
+					<NextLink onClick={openHelpModal} color="text" className={style.link}>Help</NextLink>
+					<NextLink href="https://csitcommunity.com" color="text" className={style.link}>CSIT Community</NextLink>
 				</div>
 				<div>
 					<Button color="secondary" onClick={openAddModal}>Invite</Button>

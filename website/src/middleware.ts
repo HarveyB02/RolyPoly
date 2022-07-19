@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { fetchMutualGuilds, fetchValidGuild } from './utils/api';
+import { NextRequest, NextResponse } from 'next/server'
+import { fetchMutualGuilds, checkGuildAuth } from './utils/api'
 
 const PATTERNS = [
 		[
@@ -42,7 +42,7 @@ export async function middleware(req: NextRequest) {
 		const headers = validateMiddlewareCookies(req)
 		if (!headers) return NextResponse.rewrite(new URL('/404', req.url))
 		
-		const response = await fetchValidGuild(params.id, headers)
+		const response = await checkGuildAuth(params.id, headers)
 		if (response.status !== 200) return NextResponse.rewrite(new URL('/404', req.url))
 	}
 

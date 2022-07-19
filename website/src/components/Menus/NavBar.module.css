@@ -16,13 +16,13 @@
 	z-index: 100;
 	background: white;
 }
-.container > a {
+.container > div:first-child {
 	display: flex;
 	flex-flow: row;
 	gap: 5px;
 	color: inherit;
 }
-.container > a > div {
+.container > div:first-child > div {
 	width: 40px;
 	height: 40px;
 }

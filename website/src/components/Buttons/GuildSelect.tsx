@@ -1,4 +1,5 @@
 import { Button, Dropdown } from "@nextui-org/react"
+import { useRouter } from "next/router"
 import { Key } from "react"
 import { PartialGuild } from "../../utils/types"
 
@@ -7,15 +8,17 @@ type GuildSelectProps = {
 }
 
 const GuildSelect = ({ guilds }: GuildSelectProps) => {
+	const router = useRouter()
+	
 	const handleLogin = () => {
-		window.location.href = 'http://localhost:3001/api/auth/discord'
+		router.push('http://localhost:3001/api/auth/discord')
 	}
 
 	const handleAction = (key: Key) => {
 		if (key === 'logout') return
 		if (key === 'noServers') return
 
-		window.location.href = `/dashboard/${key}`
+		router.push(`/dashboard/${key}`)
 	}
 
 	const guildItems = () => {

@@ -1,4 +1,4 @@
-import Image from "next/image"
+import { Image } from "@nextui-org/react"
 import { ReactNode } from "react"
 import style from './DiscordMessage.module.css'
 
@@ -22,7 +22,13 @@ const DiscordMessage = (props: DiscordMessage) => {
 		<div className={style.wrapper}>
 			<div style={{ position: "static" }}>
 				<div className={style.imageWrapper}>
-					<Image alt="Poly avatar" width="40px" height="40px" src="/PolyAvatar.webp"/>
+					<Image
+						showSkeleton
+						alt="Poly avatar"
+						width="40px"
+						height="40px"
+						src="/PolyAvatar.webp"
+					/>
 				</div>
 				<div className={style.username}>Poly</div>
 				<div className={style.botTag}>BOT</div>

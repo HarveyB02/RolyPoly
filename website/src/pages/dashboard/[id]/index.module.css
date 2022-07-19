@@ -1,0 +1,45 @@
+.card {
+	padding: 20px;
+	background: white;
+	border-radius: var(--nextui-radii-lg);
+	filter: var(--nextui-dropShadows-lg);
+}
+
+.title {
+	display: flex;
+	flex-direction: row;
+	padding-bottom: 10px;
+	gap: 10px;
+}
+.title > * {
+	margin: auto 0;
+}
+.title > div,
+.title > img {
+	width: 45px;
+	height: 45px;
+	flex: none;
+}
+.title > div > img {
+	border-radius: 9999px;
+	overflow: hidden;
+}
+.title > h2 {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+
+.advanced {
+	padding: 0;
+}
+.advanced > div > div:first-child {
+	padding-bottom: 0;
+}
+.advanced > div > div:not(:first-child) {
+	overflow: visible;
+}
+.advanced > div > div:not(:first-child) > div > div {
+	padding: 20px 0 0 0;
+}

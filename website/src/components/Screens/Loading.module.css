@@ -1,0 +1,35 @@
+.heading {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	display: flex;
+}
+
+.heading > div {
+	margin: auto;
+	text-align: center;
+}
+.heading > div > * {
+	margin: 0
+}
+
+.heading > div > div:first-child {
+	display: flex;
+	flex-flow: row;
+	gap: 25px;
+}
+
+.heading > div > div:first-child > * {
+	margin: auto 0;
+}
+
+.heading > div > h2 {
+	font-weight: 400;
+}
+
+.heading > div > a {
+	color: var(--nextui-colors-primary);
+	text-decoration: underline;
+}

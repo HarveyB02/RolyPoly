@@ -1,0 +1,12 @@
+.wrapper {
+	background: #36393f;
+	border-radius: 9999px;
+	overflow: hidden;
+	display: flex;
+}
+.wrapper > span {
+	margin: auto;
+	color: white;
+	font-size: 100%;
+	font-weight: 500;
+}

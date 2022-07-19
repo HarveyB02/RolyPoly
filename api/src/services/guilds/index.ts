@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { User } from '../../database/schemas'
 import { DISCORD_API_URL } from '../../utils/constants'
-import { Guild, PartialGuild } from '../../utils/types'
+import { Channels, Guild, PartialGuild, Roles } from '../../utils/types'
 
 export function getBotGuildsService() {
 	return axios.get<PartialGuild[]>(`${DISCORD_API_URL}/users/@me/guilds`, {
@@ -34,6 +34,18 @@ export async function getMutualGuildsService(id: string) {
 
 export function getGuildService(id: string) {
 	return axios.get<Guild>(`${DISCORD_API_URL}/guilds/${id}`, {
+		headers: { Authorization: `Bot ${process.env.TOKEN}` }
+	})
+}
+
+export function getGuildRolesService(id: string) {
+	return axios.get<Roles>(`${DISCORD_API_URL}/guilds/${id}/roles`, {
+		headers: { Authorization: `Bot ${process.env.TOKEN}` }
+	})
+}
+
+export function getGuildChannelsService(id: string) {
+	return axios.get<Channels>(`${DISCORD_API_URL}/guilds/${id}/channels`, {
 		headers: { Authorization: `Bot ${process.env.TOKEN}` }
 	})
 }

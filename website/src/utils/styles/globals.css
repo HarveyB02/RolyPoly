@@ -18,6 +18,10 @@ a {
 	text-decoration: none;
 }
 
+.pointer {
+	cursor: pointer;
+}
+
 * {
 	box-sizing: border-box;
 }
@@ -39,11 +43,14 @@ a {
 	margin: 0 10px;
 }
 
-.credit {
-	position: fixed;
-	bottom: 15px;
-	left: 15px;
-	color: grey;
+.divider {
+	height: 1px;
+	background-color: lightgray;
+	margin-bottom: 10px;
+}
+
+.reactSelect > div > div:nth-child(3) {
+	padding-left: 12px
 }
 
 .fadeIn {
